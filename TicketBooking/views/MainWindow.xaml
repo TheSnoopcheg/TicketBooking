@@ -1,0 +1,67 @@
+﻿<Window x:Class="TicketBooking.views.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TicketBooking.views"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="450" Width="800"
+        AllowsTransparency="True"
+        Background="Transparent"
+        WindowStyle="None">
+    <Border Background="{DynamicResource Window.Background.Static}">
+        <Grid>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="35"/>
+                <RowDefinition/>
+            </Grid.RowDefinitions>
+            <Border Grid.Row="0"
+                    Background="{DynamicResource Window.Title.Background.Static}">
+                <Grid>
+                    <TextBlock Text="PE Cinema"
+                               Foreground="{DynamicResource Window.Title.Foreground.Static}"
+                               FontWeight="DemiBold"
+                               FontSize="14"
+                               VerticalAlignment="Center"
+                               HorizontalAlignment="Center"/>
+                    <StackPanel Orientation="Horizontal"
+                                VerticalAlignment="Center"
+                                HorizontalAlignment="Right"
+                                Margin="0,0,5,0">
+                        <Button Height="30"
+                                Width="30"
+                                Style="{DynamicResource ButtonStyle}"
+                                Click="btnMinimize_Click">
+                            <Path Data="{DynamicResource minimizeIcon}"
+                                  Stretch="Fill"
+                                  Width="15"
+                                  Height="1"
+                                  Fill="{DynamicResource Window.Title.Foreground.Static}"/>
+                        </Button>
+                        <Button Height="30"
+                                Width="30"
+                                Style="{DynamicResource ButtonStyle}"
+                                Click="btnMaximize_Click">
+                            <Path Data="{DynamicResource maximizeIcon}"
+                                  Stretch="Fill"
+                                  Width="15"
+                                  Height="15"
+                                  Fill="{DynamicResource Window.Title.Foreground.Static}"/>
+                        </Button>
+                        <Button Height="30"
+                                Width="30"
+                                Style="{DynamicResource ButtonStyle}"
+                                Click="btnClose_Click">
+                            <Path Data="{DynamicResource closeIcon}"
+                                  Stretch="Fill"
+                                  Width="15"
+                                  Height="15"
+                                  Fill="{DynamicResource Window.Title.Foreground.Static}"/>
+                        </Button>
+                    </StackPanel>
+                </Grid>
+                
+            </Border>
+        </Grid>
+    </Border>
+</Window>
