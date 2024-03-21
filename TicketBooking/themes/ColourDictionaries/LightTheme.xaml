@@ -1,11 +1,21 @@
 ﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
                     xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml">
     <Color x:Key="Window.Background" R="255" G="255" B="255" A="255"/>
-    <Color x:Key="Window.Title.Background" R="188" G="188" B="188" A="255"/>
+    <Color x:Key="Window.Title.Background" R="148" G="148" B="148" A="255"/>
     <Color x:Key="Window.Title.Foreground" R="255" G="255" B="255" A="255"/>
 
-    <Color x:Key="Button.Background.MouseOver" R="168" G="168" B="168" A="255"/>
-    <Color x:Key="Button.Background.Pressed" R="148" G="148" B="148" A="255"/>
+    <Color x:Key="Button.Background.MouseOver" R="128" G="128" B="128" A="255"/>
+    <Color x:Key="Button.Background.Pressed" R="108" G="108" B="108" A="255"/>
+    <Color x:Key="Button1.Background" R="52" G="97" B="235" A="255"/>
+    <Color x:Key="Button1.Background.MouseOver" R="52" G="97" B="207" A="255"/>
+    <Color x:Key="Button1.Background.Pressed" R="52" G="97" B="187" A="255"/>
+
+    <Color x:Key="TicketItem.Background" R="255" G="255" B="255" A="255"/>
+    <Color x:Key="TicketItem.Foreground" R="0" G="0" B="0" A="255"/>
+    <Color x:Key="TicketItem.Image.Foreground" R="255" G="255" B="255" A="255"/>
+    <Color x:Key="TicketItem.Foreground.Light" R="75" G="75" B="75" A="255"/>
+
+    <Color x:Key="TicketInfoBar.Foreground" R="0" G="0" B="0" A="255"/>
 
     <SolidColorBrush x:Key="Window.Background.Static" Color="{StaticResource Window.Background}"/>
     <SolidColorBrush x:Key="Window.Title.Background.Static" Color="{StaticResource Window.Title.Background}"/>
@@ -13,4 +23,14 @@
 
     <SolidColorBrush x:Key="Button.MouseOver.Background" Color="{StaticResource Button.Background.MouseOver}"/>
     <SolidColorBrush x:Key="Button.Pressed.Background" Color="{StaticResource Button.Background.Pressed}"/>
+    <SolidColorBrush x:Key="Button1.Static.Background" Color="{StaticResource Button1.Background}"/>
+    <SolidColorBrush x:Key="Button1.MouseOver.Background" Color="{StaticResource Button1.Background.MouseOver}"/>
+    <SolidColorBrush x:Key="Button1.Pressed.Background" Color="{StaticResource Button1.Background.Pressed}"/>
+
+    <SolidColorBrush x:Key="TicketItem.Background.Static" Color="{StaticResource TicketItem.Background}"/>
+    <SolidColorBrush x:Key="TicketItem.Foreground.Static" Color="{StaticResource TicketItem.Foreground}"/>
+    <SolidColorBrush x:Key="TicketItem.Image.Foreground.Static" Color="{StaticResource TicketItem.Image.Foreground}"/>
+    <SolidColorBrush x:Key="TicketItem.Foreground.Light.Static" Color="{StaticResource TicketItem.Foreground.Light}"/>
+
+    <SolidColorBrush x:Key="TicketInfoBar.Foreground.Static" Color="{StaticResource TicketInfoBar.Foreground}"/>
 </ResourceDictionary>
