@@ -60,6 +60,32 @@
                     </Setter.Value>
                 </Setter>
             </Style>
+            <Style x:Key="ButtonStyle2" TargetType="{x:Type Button}">
+                <Setter Property="Background" Value="{DynamicResource Button2.Static.Background}"/>
+                <Setter Property="Foreground" Value="{DynamicResource Button2.Foreground.Static}"/>
+                <Setter Property="BorderThickness" Value="0"/>
+                <Setter Property="HorizontalContentAlignment" Value="Center"/>
+                <Setter Property="VerticalContentAlignment" Value="Center"/>
+                <Setter Property="Padding" Value="5"/>
+                <Setter Property="Focusable" Value="False"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="{x:Type Button}">
+                            <Border x:Name="border" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" SnapsToDevicePixels="True" CornerRadius="5" Width="{TemplateBinding Width}" Height="{TemplateBinding Height}">
+                                <ContentPresenter x:Name="contentPresenter" Focusable="False" HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}" Margin="{TemplateBinding Padding}" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource Button2.MouseOver.Background}"/>
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource Button2.Pressed.Background}"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
             <DropShadowEffect x:Key="myShadow" BlurRadius="10" Opacity="0.4" ShadowDepth="0"/>
         </ResourceDictionary>
     </Application.Resources>

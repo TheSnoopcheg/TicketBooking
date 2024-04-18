@@ -1,15 +1,30 @@
 ﻿using System.Collections.ObjectModel;
+using System.Collections.Specialized;
+using System.Diagnostics;
 using System.Windows.Input;
 using TicketBooking.classes;
 using TicketBooking.models;
+using TicketBooking.views;
 
 namespace TicketBooking.viewmodels
 {
     internal class MainWindowViewModel : Notifier
     {
+        Random random;
         private readonly MainWindowModel _model;
 
         #region Properties
+
+        private ObservableCollection<Session> _sessionsCollection = new ObservableCollection<Session>();
+        public ObservableCollection<Session> Sessions
+        {
+            get { return _sessionsCollection; }
+            set
+            {
+                _sessionsCollection = value;
+                OnPropertyChanged();
+            }
+        }
 
         private ObservableCollection<Ticket> _ticketCollection = new ObservableCollection<Ticket>();
         public ObservableCollection<Ticket> Tickets
@@ -43,6 +58,28 @@ namespace TicketBooking.viewmodels
             }
         }
 
+        private Hall? _hall;
+        public Hall? Hall
+        {
+            get { return _hall; }
+            set
+            {
+                _hall = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<Seat> _selectedSeats = new ObservableCollection<Seat>();
+        public ObservableCollection<Seat> SelectedSeats
+        {
+            get { return _selectedSeats; }
+            set
+            {
+                _selectedSeats = value;
+                OnPropertyChanged();
+            }
+        }
+
         #endregion
 
         #region Commands
@@ -60,7 +97,10 @@ namespace TicketBooking.viewmodels
                             {
                                 IsInformationBarOpen = true;
                             }
-                            SelectedTicket = ticket;
+                            SelectedTicket = ticket; 
+                            List<Row> rows = new List<Row>();
+                            for (int i = 0; i < random.Next() % 15; i++) rows.Add(new Row() { Seats = GetSeats(i + 1, 10, random), Number = i + 1 });
+                            Hall = new Hall() { Rows = rows, MaxSeatsToPick = 6 };
                         }
                     }));
             }
@@ -81,6 +121,12 @@ namespace TicketBooking.viewmodels
 
         #endregion
 
+        private List<Seat> GetSeats(int rowNum, int seatsInARow, Random r)
+        {
+            List<Seat> seats = new List<Seat>();
+            for(int i = 0; i<seatsInARow; i++) seats.Add(new Seat() { Row=rowNum, Type = SeatType.Ordinary, Status = r.Next(10) < 5 ? "Free" : "Reserved", Number = (i + 1).ToString() });
+            return seats;
+        }
         public MainWindowViewModel()
         {
             _model = new MainWindowModel();
@@ -108,6 +154,50 @@ namespace TicketBooking.viewmodels
                 Duration = "141 min.",
                 Description = "The incredible tale about the fantastical evolution of Bella Baxter, a young woman brought back to life by the brilliant and unorthodox scientist Dr. Godwin Baxter",
                 Rating =9.3 });
+
+            _sessionsCollection.Add(new Session()
+            {
+                Format = "2D",
+                Hall = 1,
+                Time = new DateTime(1, 1, 1, 16, 30, 0)
+            });
+            _sessionsCollection.Add(new Session()
+            {
+                Format = "2D",
+                Hall = 2,
+                Time = new DateTime(1, 1, 1, 19, 0, 0)
+            });
+            _sessionsCollection.Add(new Session()
+            {
+                Format = "2D",
+                Hall = 1,
+                Time = new DateTime(1, 1, 1, 22, 25, 0)
+            });
+            SelectedSeats.CollectionChanged += SelectedSeats_CollectionChanged;
+            random = new Random();
+            
+        }
+
+        private void SelectedSeats_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
+        {
+            var seats = sender as ObservableCollection<Seat>;
+            if(seats == null)
+            {
+                return;
+            }
+            if(Hall != null)
+            {
+                if (seats.Count == 7)
+                {
+                    var _nseats = new ObservableCollection<Seat>(seats);
+                    ModalWindow _mw = new ModalWindow("Warning", null, $"You can pick only {Hall.MaxSeatsToPick} seats.");
+                    _mw.ShowDialog();
+                    _nseats.RemoveAt(_nseats.Count - 1);
+                    SelectedSeats = _nseats;
+                    seats.CollectionChanged -= SelectedSeats_CollectionChanged;
+                    SelectedSeats.CollectionChanged += SelectedSeats_CollectionChanged;
+                }
+            }
         }
     }
 }

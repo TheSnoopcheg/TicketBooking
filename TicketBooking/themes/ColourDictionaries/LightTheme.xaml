@@ -9,6 +9,10 @@
     <Color x:Key="Button1.Background" R="52" G="97" B="235" A="255"/>
     <Color x:Key="Button1.Background.MouseOver" R="52" G="97" B="207" A="255"/>
     <Color x:Key="Button1.Background.Pressed" R="52" G="97" B="187" A="255"/>
+    <Color x:Key="Button2.Background" R="0" G="0" B="0" A="0"/>
+    <Color x:Key="Button2.Background.MouseOver" R="235" G="235" B="235" A="255"/>
+    <Color x:Key="Button2.Background.Pressed" R="215" G="215" B="215" A="255"/>
+    <Color x:Key="Button2.Foreground" R="52" G="97" B="207" A="255"/>
 
     <Color x:Key="TicketItem.Background" R="255" G="255" B="255" A="255"/>
     <Color x:Key="TicketItem.Foreground" R="0" G="0" B="0" A="255"/>
@@ -16,6 +20,10 @@
     <Color x:Key="TicketItem.Foreground.Light" R="75" G="75" B="75" A="255"/>
 
     <Color x:Key="TicketInfoBar.Foreground" R="0" G="0" B="0" A="255"/>
+    <Color x:Key="TicketInfoBar.Session.Background" R="255" G="255" B="255" A="255"/>
+
+    <Color x:Key="ModalWindow.Background" R="255" G="255" B="255" A="255"/>
+    <Color x:Key="ModalWindow.Text.Foreground" R="0" G="0" B="0" A="255"/>
 
     <SolidColorBrush x:Key="Window.Background.Static" Color="{StaticResource Window.Background}"/>
     <SolidColorBrush x:Key="Window.Title.Background.Static" Color="{StaticResource Window.Title.Background}"/>
@@ -26,6 +34,10 @@
     <SolidColorBrush x:Key="Button1.Static.Background" Color="{StaticResource Button1.Background}"/>
     <SolidColorBrush x:Key="Button1.MouseOver.Background" Color="{StaticResource Button1.Background.MouseOver}"/>
     <SolidColorBrush x:Key="Button1.Pressed.Background" Color="{StaticResource Button1.Background.Pressed}"/>
+    <SolidColorBrush x:Key="Button2.Static.Background" Color="{StaticResource Button2.Background}"/>
+    <SolidColorBrush x:Key="Button2.MouseOver.Background" Color="{StaticResource Button2.Background.MouseOver}"/>
+    <SolidColorBrush x:Key="Button2.Pressed.Background" Color="{StaticResource Button2.Background.Pressed}"/>
+    <SolidColorBrush x:Key="Button2.Foreground.Static" Color="{StaticResource Button2.Foreground}"/>
 
     <SolidColorBrush x:Key="TicketItem.Background.Static" Color="{StaticResource TicketItem.Background}"/>
     <SolidColorBrush x:Key="TicketItem.Foreground.Static" Color="{StaticResource TicketItem.Foreground}"/>
@@ -33,4 +45,8 @@
     <SolidColorBrush x:Key="TicketItem.Foreground.Light.Static" Color="{StaticResource TicketItem.Foreground.Light}"/>
 
     <SolidColorBrush x:Key="TicketInfoBar.Foreground.Static" Color="{StaticResource TicketInfoBar.Foreground}"/>
+    <SolidColorBrush x:Key="TicketInfoBar.Session.Background.Static" Color="{StaticResource TicketInfoBar.Session.Background}"/>
+
+    <SolidColorBrush x:Key="ModalWinodw.Background.Static" Color="{StaticResource ModalWindow.Background}"/>
+    <SolidColorBrush x:Key="ModalWinodw.Text.Foreground.Static" Color="{StaticResource ModalWindow.Text.Foreground}"/>
 </ResourceDictionary>

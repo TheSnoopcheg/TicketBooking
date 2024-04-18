@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TicketBooking.views"
         xmlns:converters="clr-namespace:TicketBooking.converters"
+        xmlns:controls="clr-namespace:TicketBooking.controls"
         mc:Ignorable="d"
         Title="MainWindow" Height="575" Width="850"
         AllowsTransparency="True"
@@ -128,16 +129,67 @@
                 </EventTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
+        <DataTemplate x:Key="SessionItemTemplate">
+            <Border Width="75"
+                    Height="75"
+                    Effect="{DynamicResource myShadow}"
+                    CornerRadius="10"
+                    Margin="5"
+                    Cursor="Hand"
+                    Background="{DynamicResource TicketInfoBar.Session.Background.Static}"
+                    x:Name="SessionBack">
+                <Grid>
+                    <TextBlock Text="{Binding Time, StringFormat=H:mm}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Top"
+                               FontSize="14"
+                               FontWeight="DemiBold"
+                               Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
+                    <TextBlock Text="{Binding Format}"
+                               FontSize="14"
+                               FontWeight="DemiBold"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
+                    <TextBlock Text="{Binding Hall, StringFormat=Hall {0}}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Bottom"
+                               FontWeight="DemiBold"
+                               Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
+                </Grid>
+                <Border.RenderTransform>
+                    <ScaleTransform ScaleX="1" ScaleY="1" CenterX="37.5" CenterY="37.5"/>
+                </Border.RenderTransform>
+            </Border>
+            <DataTemplate.Triggers>
+                <EventTrigger RoutedEvent="UIElement.MouseEnter">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1" To="1.05" Duration="0:0:0.15"/>
+                            <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleY" From="1" To="1.05" Duration="0:0:0.15"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+                <EventTrigger RoutedEvent="UIElement.MouseLeave">
+                    <BeginStoryboard>
+                        <Storyboard>
+                            <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1.05" To="1" Duration="0:0:0.15"/>
+                            <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleY" From="1.05" To="1" Duration="0:0:0.15"/>
+                        </Storyboard>
+                    </BeginStoryboard>
+                </EventTrigger>
+            </DataTemplate.Triggers>
+        </DataTemplate>
     </Window.Resources>
-    <Border Background="{DynamicResource Window.Background.Static}"
-            MouseDown="Border_MouseDown">
+    <Border Background="{DynamicResource Window.Background.Static}">
         <Grid>
             <Grid.RowDefinitions>
                 <RowDefinition Height="35"/>
                 <RowDefinition/>
             </Grid.RowDefinitions>
             <Border Grid.Row="0"
-                    Background="{DynamicResource Window.Title.Background.Static}">
+                    Background="{DynamicResource Window.Title.Background.Static}"
+                    MouseDown="Border_MouseDown">
                 <Grid>
                     <TextBlock Text="PE Cinema"
                                Foreground="{DynamicResource Window.Title.Foreground.Static}"
@@ -208,6 +260,7 @@
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
+                            <RowDefinition Height="Auto"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Button Height="30"
@@ -256,6 +309,19 @@
                                            TextWrapping="Wrap"
                                            Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
                             </StackPanel>
+                        </Grid>
+                        <Grid Grid.Row="2">
+                            <!--<ItemsControl ItemsSource="{Binding Sessions}"
+                                          ItemTemplate="{DynamicResource SessionItemTemplate}"
+                                          Margin="5">
+                                <ItemsControl.ItemsPanel>
+                                    <ItemsPanelTemplate>
+                                        <WrapPanel Orientation="Horizontal"/>
+                                    </ItemsPanelTemplate>
+                                </ItemsControl.ItemsPanel>
+                            </ItemsControl>-->
+                            <controls:SeatPicker Hall="{Binding Hall}"
+                                                 SelectedSeats="{Binding SelectedSeats, UpdateSourceTrigger=PropertyChanged}"/>
                         </Grid>
                     </Grid>
                     <Border.Style>
