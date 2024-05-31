@@ -14,13 +14,13 @@
     <Color x:Key="Button2.Background.Pressed" R="215" G="215" B="215" A="255"/>
     <Color x:Key="Button2.Foreground" R="52" G="97" B="207" A="255"/>
 
-    <Color x:Key="TicketItem.Background" R="255" G="255" B="255" A="255"/>
-    <Color x:Key="TicketItem.Foreground" R="0" G="0" B="0" A="255"/>
-    <Color x:Key="TicketItem.Image.Foreground" R="255" G="255" B="255" A="255"/>
-    <Color x:Key="TicketItem.Foreground.Light" R="75" G="75" B="75" A="255"/>
+    <Color x:Key="MovieItem.Background" R="255" G="255" B="255" A="255"/>
+    <Color x:Key="MovieItem.Foreground" R="0" G="0" B="0" A="255"/>
+    <Color x:Key="MovieItem.Image.Foreground" R="255" G="255" B="255" A="255"/>
+    <Color x:Key="MovieItem.Foreground.Light" R="75" G="75" B="75" A="255"/>
 
-    <Color x:Key="TicketInfoBar.Foreground" R="0" G="0" B="0" A="255"/>
-    <Color x:Key="TicketInfoBar.Session.Background" R="255" G="255" B="255" A="255"/>
+    <Color x:Key="MovieInfoBar.Foreground" R="0" G="0" B="0" A="255"/>
+    <Color x:Key="MovieInfoBar.Session.Background" R="255" G="255" B="255" A="255"/>
 
     <Color x:Key="ModalWindow.Background" R="255" G="255" B="255" A="255"/>
     <Color x:Key="ModalWindow.Text.Foreground" R="0" G="0" B="0" A="255"/>
@@ -39,13 +39,13 @@
     <SolidColorBrush x:Key="Button2.Pressed.Background" Color="{StaticResource Button2.Background.Pressed}"/>
     <SolidColorBrush x:Key="Button2.Foreground.Static" Color="{StaticResource Button2.Foreground}"/>
 
-    <SolidColorBrush x:Key="TicketItem.Background.Static" Color="{StaticResource TicketItem.Background}"/>
-    <SolidColorBrush x:Key="TicketItem.Foreground.Static" Color="{StaticResource TicketItem.Foreground}"/>
-    <SolidColorBrush x:Key="TicketItem.Image.Foreground.Static" Color="{StaticResource TicketItem.Image.Foreground}"/>
-    <SolidColorBrush x:Key="TicketItem.Foreground.Light.Static" Color="{StaticResource TicketItem.Foreground.Light}"/>
+    <SolidColorBrush x:Key="MovieItem.Background.Static" Color="{StaticResource MovieItem.Background}"/>
+    <SolidColorBrush x:Key="MovieItem.Foreground.Static" Color="{StaticResource MovieItem.Foreground}"/>
+    <SolidColorBrush x:Key="MovieItem.Image.Foreground.Static" Color="{StaticResource MovieItem.Image.Foreground}"/>
+    <SolidColorBrush x:Key="MovieItem.Foreground.Light.Static" Color="{StaticResource MovieItem.Foreground.Light}"/>
 
-    <SolidColorBrush x:Key="TicketInfoBar.Foreground.Static" Color="{StaticResource TicketInfoBar.Foreground}"/>
-    <SolidColorBrush x:Key="TicketInfoBar.Session.Background.Static" Color="{StaticResource TicketInfoBar.Session.Background}"/>
+    <SolidColorBrush x:Key="MovieInfoBar.Foreground.Static" Color="{StaticResource MovieInfoBar.Foreground}"/>
+    <SolidColorBrush x:Key="MovieInfoBar.Session.Background.Static" Color="{StaticResource MovieInfoBar.Session.Background}"/>
 
     <SolidColorBrush x:Key="ModalWinodw.Background.Static" Color="{StaticResource ModalWindow.Background}"/>
     <SolidColorBrush x:Key="ModalWinodw.Text.Foreground.Static" Color="{StaticResource ModalWindow.Text.Foreground}"/>

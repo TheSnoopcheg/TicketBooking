@@ -74,6 +74,12 @@
                             <DataTrigger Binding="{Binding Type}" Value="Ordinary">
                                 <Setter TargetName="backEllipse" Property="Fill" Value="Pink"/>
                             </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="Sofa">
+                                <Setter TargetName="backEllipse" Property="Fill" Value="Yellow"/>
+                            </DataTrigger>
+                            <DataTrigger Binding="{Binding Type}" Value="Loveseat">
+                                <Setter TargetName="backEllipse" Property="Fill" Value="Red"/>
+                            </DataTrigger>
                             <DataTrigger Binding="{Binding Status}" Value="Reserved">
                                 <Setter TargetName="backEllipse" Property="Fill" Value="Gray"/>
                             </DataTrigger>

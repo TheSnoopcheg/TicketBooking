@@ -146,10 +146,6 @@ namespace TicketBooking.controls
                     SelectedSeats.Add(s);
                 }
             }
-            //foreach (Seat seat in SelectedSeats)
-            //{
-            //    Debug.WriteLine($"Row: {seat.Row}\tNumber: {seat.Number}\tType: {seat.Type}");
-            //}
         }
     }
 }

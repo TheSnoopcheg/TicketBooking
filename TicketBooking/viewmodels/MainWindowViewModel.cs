@@ -15,13 +15,24 @@ namespace TicketBooking.viewmodels
 
         #region Properties
 
-        private ObservableCollection<Session> _sessionsCollection = new ObservableCollection<Session>();
-        public ObservableCollection<Session> Sessions
+        private int _selectedSubPage = 0;
+        public int SelectedSubPage
         {
-            get { return _sessionsCollection; }
+            get { return _selectedSubPage; }
             set
             {
-                _sessionsCollection = value;
+                _selectedSubPage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private double _totalAmount;
+        public double TotalAmount
+        {
+            get { return _totalAmount; }
+            set
+            {
+                _totalAmount = value;
                 OnPropertyChanged();
             }
         }
@@ -36,6 +47,28 @@ namespace TicketBooking.viewmodels
                 OnPropertyChanged();
             }
         }
+
+        private ObservableCollection<Session> _sessionsCollection = new ObservableCollection<Session>();
+        public ObservableCollection<Session> Sessions
+        {
+            get { return _sessionsCollection; }
+            set
+            {
+                _sessionsCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
+        private ObservableCollection<Movie> _movieCollection = new ObservableCollection<Movie>();
+        public ObservableCollection<Movie> Movies
+        {
+            get { return _movieCollection; }
+            set
+            {
+                _movieCollection = value;
+                OnPropertyChanged();
+            }
+        }
         private bool _isInformationBarOpen = false;
         public bool IsInformationBarOpen
         {
@@ -47,13 +80,13 @@ namespace TicketBooking.viewmodels
             }
         }
 
-        private Ticket? _selectedTicket;
-        public Ticket? SelectedTicket
+        private Movie? _selectedMovie;
+        public Movie? SelectedMovie
         {
-            get { return _selectedTicket; }
+            get { return _selectedMovie; }
             set
             {
-                _selectedTicket = value;
+                _selectedMovie = value;
                 OnPropertyChanged();
             }
         }
@@ -91,15 +124,24 @@ namespace TicketBooking.viewmodels
                 return _openInformationBar ??
                     (_openInformationBar = new RelayCommand(obj =>
                     {
-                        if(obj is Ticket ticket)
+                        if(obj is Movie movie)
                         {
+                            if (movie == SelectedMovie) return;
+
+                            SelectedSubPage = 0;
+                            TotalAmount = 0;
+                            SelectedSeats.Clear();
+
                             if(IsInformationBarOpen == false)
                             {
                                 IsInformationBarOpen = true;
                             }
-                            SelectedTicket = ticket; 
+                            SelectedMovie = movie; 
                             List<Row> rows = new List<Row>();
-                            for (int i = 0; i < random.Next() % 15; i++) rows.Add(new Row() { Seats = GetSeats(i + 1, 10, random), Number = i + 1 });
+                            int rowsnum = random.Next() % 15;
+                            rows.Add(new Row() { Number = 1, Seats = new List<Seat> { new Seat() {Row = 1, Type=SeatType.Sofa, Status="Free", Number="1" }, new Seat() { Row = 1, Type = SeatType.Sofa, Status = "Free", Number = "2" } } });
+                            for (int i = 1; i < rowsnum; i++) rows.Add(new Row() { Seats = GetSeats(i + 1, random.Next()%15, random), Number = i + 1 });
+                            rows.Add(new Row() { Number = rowsnum+1, Seats = new List<Seat> { new Seat() { Row = rowsnum+1, Type = SeatType.Loveseat, Status = "Free", Number = "1" }, new Seat() { Row = rowsnum, Type = SeatType.Loveseat, Status = "Free", Number = "2" } } });
                             Hall = new Hall() { Rows = rows, MaxSeatsToPick = 6 };
                         }
                     }));
@@ -114,7 +156,20 @@ namespace TicketBooking.viewmodels
                     (_closeInformationBar = new RelayCommand(obj =>
                     {
                         IsInformationBarOpen = false;
-                        SelectedTicket = null;
+                        SelectedMovie = null;
+                    }));
+            }
+        }
+
+        private ICommand? _openSessionView;
+        public ICommand OpenSessionView
+        {
+            get
+            {
+                return _openSessionView ??
+                    (_openSessionView = new RelayCommand(obj =>
+                    {
+                        SelectedSubPage = 1;
                     }));
             }
         }
@@ -130,7 +185,7 @@ namespace TicketBooking.viewmodels
         public MainWindowViewModel()
         {
             _model = new MainWindowModel();
-            _ticketCollection.Add(new Ticket() { ImageUrl=$"https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_.jpg", 
+            _movieCollection.Add(new Movie() { ImageUrl=$"https://m.media-amazon.com/images/M/MV5BMDBmYTZjNjUtN2M1MS00MTQ2LTk2ODgtNzc2M2QyZGE5NTVjXkEyXkFqcGdeQXVyNzAwMjU2MTY@._V1_.jpg", 
                 ReleaseYear="2023", 
                 Title="Oppenheimer", 
                 Genre= "Biography", 
@@ -138,7 +193,7 @@ namespace TicketBooking.viewmodels
                 Duration="180 min.",
                 Description= "The story of American scientist J. Robert Oppenheimer and his role in the development of the atomic bomb.",
                 Rating =5.5 } );
-            _ticketCollection.Add(new Ticket() { ImageUrl = $"https://www.dvdsreleasedates.com/posters/800/D/Dune-Part-Two-2023-movie-poster.jpg", 
+            _movieCollection.Add(new Movie() { ImageUrl = $"https://www.dvdsreleasedates.com/posters/800/D/Dune-Part-Two-2023-movie-poster.jpg", 
                 ReleaseYear = "2024", 
                 Title = "Dune: Part Two", 
                 Genre="Fantastic", 
@@ -146,7 +201,7 @@ namespace TicketBooking.viewmodels
                 Duration="166 min.",
                 Description= "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators who destroyed his family.",
                 Rating =1.2 });
-            _ticketCollection.Add(new Ticket() { ImageUrl = $"https://cinemaorion.fi/wp-content/uploads/2023/07/poor_payoff_poster_fi-717x1024.jpg", 
+            _movieCollection.Add(new Movie() { ImageUrl = $"https://cinemaorion.fi/wp-content/uploads/2023/07/poor_payoff_poster_fi-717x1024.jpg", 
                 ReleaseYear = "2023", 
                 Title = "Poor Things",
                 Genre="Drama",
@@ -173,31 +228,55 @@ namespace TicketBooking.viewmodels
                 Hall = 1,
                 Time = new DateTime(1, 1, 1, 22, 25, 0)
             });
+
+            _ticketCollection.Add(new Ticket()
+            {
+                SeatType=SeatType.Ordinary,
+                Price=8,
+                Name="Ordinary"
+            });
+            _ticketCollection.Add(new Ticket()
+            {
+                SeatType=SeatType.Sofa,
+                Price=22,
+                Name="Sofa"
+            });
+            _ticketCollection.Add(new Ticket()
+            {
+                SeatType=SeatType.Loveseat,
+                Price=18,
+                Name="Loveseat"
+            });
+
             SelectedSeats.CollectionChanged += SelectedSeats_CollectionChanged;
             random = new Random();
-            
         }
 
         private void SelectedSeats_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
+            Debug.WriteLine("FIREEEEEEEEEEEEEEEEEEEEEEEEEED");
             var seats = sender as ObservableCollection<Seat>;
             if(seats == null)
             {
                 return;
             }
-            if(Hall != null)
+            if (Hall != null)
             {
                 if (seats.Count == 7)
                 {
-                    var _nseats = new ObservableCollection<Seat>(seats);
                     ModalWindow _mw = new ModalWindow("Warning", null, $"You can pick only {Hall.MaxSeatsToPick} seats.");
                     _mw.ShowDialog();
-                    _nseats.RemoveAt(_nseats.Count - 1);
-                    SelectedSeats = _nseats;
-                    seats.CollectionChanged -= SelectedSeats_CollectionChanged;
-                    SelectedSeats.CollectionChanged += SelectedSeats_CollectionChanged;
+                    seats.RemoveAt(seats.Count - 1);
+                    SelectedSeats = seats;
                 }
             }
+            double sum = 0;
+            foreach (var seat in SelectedSeats)
+            {
+                sum += _ticketCollection.First(u => u.SeatType == seat.Type).Price;
+            }
+            TotalAmount = sum;
+            Debug.WriteLine(TotalAmount);
         }
     }
 }

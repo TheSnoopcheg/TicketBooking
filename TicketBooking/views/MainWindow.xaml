@@ -14,14 +14,14 @@
         x:Name="mainWindow">
     <Window.Resources>
         <converters:RatingColorConverter x:Key="RatingColorConverter"/>
-        <DataTemplate x:Key="TicketItemTemplate">
+        <DataTemplate x:Key="MovieItemTemplate">
             <Border Width="150"
                     Height="250"
                     Effect="{DynamicResource myShadow}"
-                    Background="{DynamicResource TicketItem.Background.Static}"
+                    Background="{DynamicResource MovieItem.Background.Static}"
                     Margin="10,5,10,10"
                     CornerRadius="10"
-                    x:Name="TicketBack">
+                    x:Name="MovieBack">
                 <Grid>
                     <Grid.RowDefinitions>
                         <RowDefinition/>
@@ -47,7 +47,7 @@
                                 x:Name="JumpButton">
                             <Path Data="{DynamicResource rightArrow}"
                                   Stretch="Fill"
-                                  Fill="{DynamicResource TicketItem.Image.Foreground.Static}"/>
+                                  Fill="{DynamicResource MovieItem.Image.Foreground.Static}"/>
                         </Button>
                         <Border Background="{Binding Rating, Converter={StaticResource RatingColorConverter}}"
                                 CornerRadius="5"
@@ -59,7 +59,7 @@
                             <TextBlock Text="{Binding Rating}"
                                        HorizontalAlignment="Center"
                                        VerticalAlignment="Center"
-                                       Foreground="{DynamicResource TicketItem.Image.Foreground.Static}"
+                                       Foreground="{DynamicResource MovieItem.Image.Foreground.Static}"
                                        FontWeight="DemiBold"
                                        FontSize="13"/>
                         </Border>
@@ -70,13 +70,13 @@
                                 HorizontalAlignment="Center"
                                 VerticalAlignment="Center"
                                 Height="0"
-                                x:Name="TicketTitle">
+                                x:Name="MovieTitle">
                         <TextBlock Text="{Binding Title}"
-                                   Foreground="{DynamicResource TicketItem.Foreground.Static}"
+                                   Foreground="{DynamicResource MovieItem.Foreground.Static}"
                                    FontSize="13"
                                    FontWeight="DemiBold"
                                    HorizontalAlignment="Center"/>
-                        <TextBlock Foreground="{DynamicResource TicketItem.Foreground.Light.Static}"
+                        <TextBlock Foreground="{DynamicResource MovieItem.Foreground.Light.Static}"
                                    FontSize="11"
                                    HorizontalAlignment="Center"
                                    FontWeight="DemiBold">
@@ -108,10 +108,10 @@
                 <EventTrigger RoutedEvent="UIElement.MouseEnter">
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="TicketBack" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1" To="1.05" Duration="0:0:0.15"/>
-                            <DoubleAnimation Storyboard.TargetName="TicketBack" Storyboard.TargetProperty="RenderTransform.ScaleY" From="1" To="1.05" Duration="0:0:0.15"/>
+                            <DoubleAnimation Storyboard.TargetName="MovieBack" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1" To="1.05" Duration="0:0:0.15"/>
+                            <DoubleAnimation Storyboard.TargetName="MovieBack" Storyboard.TargetProperty="RenderTransform.ScaleY" From="1" To="1.05" Duration="0:0:0.15"/>
                             <DoubleAnimation Storyboard.TargetName="ImageBlurEffect" Storyboard.TargetProperty="Radius" From="0" To="5" Duration="0:0:0.15"/>
-                            <DoubleAnimation Storyboard.TargetName="TicketTitle" Storyboard.TargetProperty="Height" From="0" To="40" Duration="0:0:0.15"/>
+                            <DoubleAnimation Storyboard.TargetName="MovieTitle" Storyboard.TargetProperty="Height" From="0" To="40" Duration="0:0:0.15"/>
                             <DoubleAnimation Storyboard.TargetName="JumpButton" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.15"/>
                         </Storyboard>
                     </BeginStoryboard>
@@ -119,10 +119,10 @@
                 <EventTrigger RoutedEvent="UIElement.MouseLeave">
                     <BeginStoryboard>
                         <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="TicketBack" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1.05" To="1" Duration="0:0:0.15"/>
-                            <DoubleAnimation Storyboard.TargetName="TicketBack" Storyboard.TargetProperty="RenderTransform.ScaleY" From="1.05" To="1" Duration="0:0:0.15"/>
+                            <DoubleAnimation Storyboard.TargetName="MovieBack" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1.05" To="1" Duration="0:0:0.15"/>
+                            <DoubleAnimation Storyboard.TargetName="MovieBack" Storyboard.TargetProperty="RenderTransform.ScaleY" From="1.05" To="1" Duration="0:0:0.15"/>
                             <DoubleAnimation Storyboard.TargetName="ImageBlurEffect" Storyboard.TargetProperty="Radius" From="5" To="0" Duration="0:0:0.15"/>
-                            <DoubleAnimation Storyboard.TargetName="TicketTitle" Storyboard.TargetProperty="Height" From="40" To="0" Duration="0:0:0.15"/>
+                            <DoubleAnimation Storyboard.TargetName="MovieTitle" Storyboard.TargetProperty="Height" From="40" To="0" Duration="0:0:0.15"/>
                             <DoubleAnimation Storyboard.TargetName="JumpButton" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.15"/>
                         </Storyboard>
                     </BeginStoryboard>
@@ -130,54 +130,92 @@
             </DataTemplate.Triggers>
         </DataTemplate>
         <DataTemplate x:Key="SessionItemTemplate">
-            <Border Width="75"
-                    Height="75"
-                    Effect="{DynamicResource myShadow}"
-                    CornerRadius="10"
-                    Margin="5"
-                    Cursor="Hand"
-                    Background="{DynamicResource TicketInfoBar.Session.Background.Static}"
-                    x:Name="SessionBack">
-                <Grid>
-                    <TextBlock Text="{Binding Time, StringFormat=H:mm}"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Top"
-                               FontSize="14"
-                               FontWeight="DemiBold"
-                               Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
-                    <TextBlock Text="{Binding Format}"
-                               FontSize="14"
-                               FontWeight="DemiBold"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Center"
-                               Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
-                    <TextBlock Text="{Binding Hall, StringFormat=Hall {0}}"
-                               HorizontalAlignment="Center"
-                               VerticalAlignment="Bottom"
-                               FontWeight="DemiBold"
-                               Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
-                </Grid>
-                <Border.RenderTransform>
-                    <ScaleTransform ScaleX="1" ScaleY="1" CenterX="37.5" CenterY="37.5"/>
-                </Border.RenderTransform>
-            </Border>
+            <Button>
+                <Button.Style>
+                    <Style TargetType="{x:Type Button}">
+                        <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.OpenSessionView}"/>
+                        <Setter Property="Template">
+                            <Setter.Value>
+                                <ControlTemplate>
+                                    <Border Width="75"
+                                            Height="75"
+                                            Effect="{DynamicResource myShadow}"
+                                            CornerRadius="10"
+                                            Margin="5"
+                                            Cursor="Hand"
+                                            Background="{DynamicResource MovieInfoBar.Session.Background.Static}"
+                                            x:Name="SessionBack">
+                                        <Grid>
+                                            <TextBlock Text="{Binding Time, StringFormat=H:mm}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Top"
+                                                       FontSize="14"
+                                                       FontWeight="DemiBold"
+                                                       Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
+                                            <TextBlock Text="{Binding Format}"
+                                                       FontSize="14"
+                                                       FontWeight="DemiBold"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Center"
+                                                       Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
+                                            <TextBlock Text="{Binding Hall, StringFormat=Hall {0}}"
+                                                       HorizontalAlignment="Center"
+                                                       VerticalAlignment="Bottom"
+                                                       FontWeight="DemiBold"
+                                                       Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
+                                        </Grid>
+                                        <Border.RenderTransform>
+                                            <ScaleTransform ScaleX="1" ScaleY="1" CenterX="37.5" CenterY="37.5"/>
+                                        </Border.RenderTransform>
+                                    </Border>
+                                    <ControlTemplate.Triggers>
+                                        <EventTrigger RoutedEvent="Button.MouseEnter">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1" To="1.05" Duration="0:0:0.15"/>
+                                                    <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleY" From="1" To="1.05" Duration="0:0:0.15"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                        <EventTrigger RoutedEvent="Button.MouseLeave">
+                                            <BeginStoryboard>
+                                                <Storyboard>
+                                                    <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1.05" To="1" Duration="0:0:0.15"/>
+                                                    <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleY" From="1.05" To="1" Duration="0:0:0.15"/>
+                                                </Storyboard>
+                                            </BeginStoryboard>
+                                        </EventTrigger>
+                                    </ControlTemplate.Triggers>
+                                </ControlTemplate>
+                            </Setter.Value>
+                        </Setter>
+                    </Style>
+                </Button.Style>
+            </Button>
+            
+        </DataTemplate>
+        <DataTemplate x:Key="TicketPriceTemplate">
+            <StackPanel Orientation="Horizontal" Margin="5,0">
+                <Ellipse Width="10" Height="10" x:Name="TicketTypeEllipse"/>
+                <TextBlock Margin="5,0" FontSize="13">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} - {1} р.">
+                            <Binding Path="Name"/>
+                            <Binding Path="Price"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </StackPanel>
             <DataTemplate.Triggers>
-                <EventTrigger RoutedEvent="UIElement.MouseEnter">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1" To="1.05" Duration="0:0:0.15"/>
-                            <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleY" From="1" To="1.05" Duration="0:0:0.15"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
-                <EventTrigger RoutedEvent="UIElement.MouseLeave">
-                    <BeginStoryboard>
-                        <Storyboard>
-                            <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleX" From="1.05" To="1" Duration="0:0:0.15"/>
-                            <DoubleAnimation Storyboard.TargetName="SessionBack" Storyboard.TargetProperty="RenderTransform.ScaleY" From="1.05" To="1" Duration="0:0:0.15"/>
-                        </Storyboard>
-                    </BeginStoryboard>
-                </EventTrigger>
+                <DataTrigger Binding="{Binding SeatType}" Value="Ordinary">
+                    <Setter TargetName="TicketTypeEllipse" Property="Fill" Value="Pink"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SeatType}" Value="Sofa">
+                    <Setter TargetName="TicketTypeEllipse" Property="Fill" Value="Yellow"/>
+                </DataTrigger>
+                <DataTrigger Binding="{Binding SeatType}" Value="Loveseat">
+                    <Setter TargetName="TicketTypeEllipse" Property="Fill" Value="Red"/>
+                </DataTrigger>
             </DataTemplate.Triggers>
         </DataTemplate>
     </Window.Resources>
@@ -242,8 +280,8 @@
                 <ScrollViewer Grid.Column="0"
                               VerticalScrollBarVisibility="Hidden"
                               HorizontalScrollBarVisibility="Disabled">
-                    <ItemsControl ItemsSource="{Binding Path=Tickets}"
-                                  ItemTemplate="{DynamicResource TicketItemTemplate}">
+                    <ItemsControl ItemsSource="{Binding Path=Movies}"
+                                  ItemTemplate="{DynamicResource MovieItemTemplate}">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel Orientation="Horizontal"/>
@@ -273,55 +311,123 @@
                                   Stretch="Fill"
                                   Width="15"
                                   Height="15"
-                                  Fill="{DynamicResource TicketInfoBar.Foreground.Static}"/>
+                                  Fill="{DynamicResource MovieInfoBar.Foreground.Static}"/>
                         </Button>
                         <Grid Grid.Row="1">
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition/>
                                 <ColumnDefinition/>
                             </Grid.ColumnDefinitions>
-                            <Image Source="{Binding SelectedTicket.ImageUrl}"
+                            <Image Source="{Binding SelectedMovie.ImageUrl}"
                                    VerticalAlignment="Top"
                                    Margin="5"
                                    Grid.Column="0"
                                    Height="300"/>
                             <StackPanel Grid.Column="1"
                                         Margin="5,5,0,0">
-                                <TextBlock Text="{Binding SelectedTicket.Title}"
+                                <TextBlock Text="{Binding SelectedMovie.Title}"
                                            FontSize="16"
                                            FontWeight="DemiBold"
-                                           Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
-                                <TextBlock Text="{Binding SelectedTicket.ReleaseYear, StringFormat=Release year: {0}}"
-                                           Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
-                                <TextBlock Text="{Binding SelectedTicket.Country, StringFormat=Country: {0}}"
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
+                                <TextBlock Text="{Binding SelectedMovie.ReleaseYear, StringFormat=Release year: {0}}"
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
+                                <TextBlock Text="{Binding SelectedMovie.Country, StringFormat=Country: {0}}"
                                            TextWrapping="Wrap"
-                                           Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
-                                <TextBlock Text="{Binding SelectedTicket.Genre, StringFormat=Genre: {0}}"
-                                           Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
-                                <TextBlock Text="{Binding SelectedTicket.Duration, StringFormat=Duration: {0}}"
-                                           Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
+                                <TextBlock Text="{Binding SelectedMovie.Genre, StringFormat=Genre: {0}}"
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
+                                <TextBlock Text="{Binding SelectedMovie.Duration, StringFormat=Duration: {0}}"
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
                                 <TextBlock Text="Description"
                                            FontSize="14"
                                            FontWeight="DemiBold"
                                            Margin="0,5,0,0"
-                                           Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
-                                <TextBlock Text="{Binding SelectedTicket.Description}"
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
+                                <TextBlock Text="{Binding SelectedMovie.Description}"
                                            TextWrapping="Wrap"
-                                           Foreground="{DynamicResource TicketInfoBar.Foreground.Static}"/>
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
                             </StackPanel>
                         </Grid>
                         <Grid Grid.Row="2">
-                            <!--<ItemsControl ItemsSource="{Binding Sessions}"
-                                          ItemTemplate="{DynamicResource SessionItemTemplate}"
-                                          Margin="5">
-                                <ItemsControl.ItemsPanel>
-                                    <ItemsPanelTemplate>
-                                        <WrapPanel Orientation="Horizontal"/>
-                                    </ItemsPanelTemplate>
-                                </ItemsControl.ItemsPanel>
-                            </ItemsControl>-->
-                            <controls:SeatPicker Hall="{Binding Hall}"
-                                                 SelectedSeats="{Binding SelectedSeats, UpdateSourceTrigger=PropertyChanged}"/>
+                            <Grid>
+                                <ItemsControl ItemsSource="{Binding Sessions}"
+                                              ItemTemplate="{DynamicResource SessionItemTemplate}"
+                                              Margin="5">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <WrapPanel Orientation="Horizontal"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                                <Grid.Style>
+                                    <Style TargetType="{x:Type Grid}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SelectedSubPage}" Value="0">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Setter Property="IsEnabled" Value="True"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition Height="50"/>
+                                </Grid.RowDefinitions>
+                                <controls:SeatPicker Hall="{Binding Hall}"
+                                                     SelectedSeats="{Binding Path=SelectedSeats, UpdateSourceTrigger=PropertyChanged}"/>
+                                <Grid Grid.Row="1">
+                                    <Grid.ColumnDefinitions>
+                                        <ColumnDefinition/>
+                                        <ColumnDefinition Width="110"/>
+                                        <ColumnDefinition Width="110"/>
+                                    </Grid.ColumnDefinitions>
+
+                                    <ItemsControl ItemsSource="{Binding Tickets}"
+                                                  ItemTemplate="{DynamicResource TicketPriceTemplate}"
+                                                  Grid.Column="0"
+                                                  VerticalAlignment="Center">
+                                        <ItemsControl.ItemsPanel>
+                                            <ItemsPanelTemplate>
+                                                <WrapPanel Orientation="Horizontal" HorizontalAlignment="Center"/>
+                                            </ItemsPanelTemplate>
+                                        </ItemsControl.ItemsPanel>
+                                    </ItemsControl>
+
+                                    <TextBlock Grid.Column="1"
+                                               Text="{Binding TotalAmount, StringFormat=Total amount: {0}}"
+                                               Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"
+                                               VerticalAlignment="Center"
+                                               HorizontalAlignment="Center"
+                                               FontSize="14"/>
+
+                                    <Button Grid.Column="2"
+                                            Style="{DynamicResource ButtonStyle2}"
+                                            Content="Buy"
+                                            VerticalAlignment="Center"
+                                            HorizontalAlignment="Center"
+                                            Width="100"
+                                            Height="30"
+                                            FontWeight="DemiBold"
+                                            FontSize="16"/>
+                                </Grid>
+                                <Grid.Style>
+                                    <Style TargetType="{x:Type Grid}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SelectedSubPage}" Value="1">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Setter Property="IsEnabled" Value="True"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                            </Grid>
                         </Grid>
                     </Grid>
                     <Border.Style>
