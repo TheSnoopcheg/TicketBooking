@@ -174,6 +174,20 @@ namespace TicketBooking.viewmodels
             }
         }
 
+        private ICommand? _buyButtonCommand;
+        public ICommand BuyButtonCommand
+        {
+            get
+            {
+                return _buyButtonCommand ??
+                    (_buyButtonCommand = new RelayCommand(obj =>
+                    {
+
+                    SelectedSubPage = 2; 
+                    }));
+            }
+        }
+
         #endregion
 
         private List<Seat> GetSeats(int rowNum, int seatsInARow, Random r)
@@ -229,23 +243,33 @@ namespace TicketBooking.viewmodels
                 Time = new DateTime(1, 1, 1, 22, 25, 0)
             });
 
+            List<Discount> discounts = new List<Discount>()
+            {
+                new Discount { Name = "Adult", PriceMultiplier = 1},
+                new Discount { Name = "Child", PriceMultiplier = 0.5},
+                new Discount { Name = "Student", PriceMultiplier = 0.75}
+            };
+
             _ticketCollection.Add(new Ticket()
             {
                 SeatType=SeatType.Ordinary,
                 Price=8,
-                Name="Ordinary"
+                Name="Ordinary",
+                Discounts = discounts
             });
             _ticketCollection.Add(new Ticket()
             {
                 SeatType=SeatType.Sofa,
                 Price=22,
-                Name="Sofa"
+                Name="Sofa",
+                Discounts = discounts
             });
             _ticketCollection.Add(new Ticket()
             {
                 SeatType=SeatType.Loveseat,
                 Price=18,
-                Name="Loveseat"
+                Name="Loveseat",
+                Discounts = discounts
             });
 
             SelectedSeats.CollectionChanged += SelectedSeats_CollectionChanged;
@@ -254,22 +278,21 @@ namespace TicketBooking.viewmodels
 
         private void SelectedSeats_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
         {
-            Debug.WriteLine("FIREEEEEEEEEEEEEEEEEEEEEEEEEED");
             var seats = sender as ObservableCollection<Seat>;
-            if(seats == null)
+            
+            if (seats == null) return;
+            if (Hall == null) return;
+
+            if (seats.Count > Hall.MaxSeatsToPick)
             {
-                return;
+                ModalWindow _mw = new ModalWindow("Warning", null, $"You can pick only {Hall.MaxSeatsToPick} seats.");
+                _mw.ShowDialog();
+                SelectedSeats.CollectionChanged -= SelectedSeats_CollectionChanged;
+                var _nseats = new ObservableCollection<Seat>(seats.Take(Hall.MaxSeatsToPick));
+                SelectedSeats = _nseats;
+                SelectedSeats.CollectionChanged += SelectedSeats_CollectionChanged;
             }
-            if (Hall != null)
-            {
-                if (seats.Count == 7)
-                {
-                    ModalWindow _mw = new ModalWindow("Warning", null, $"You can pick only {Hall.MaxSeatsToPick} seats.");
-                    _mw.ShowDialog();
-                    seats.RemoveAt(seats.Count - 1);
-                    SelectedSeats = seats;
-                }
-            }
+
             double sum = 0;
             foreach (var seat in SelectedSeats)
             {

@@ -14,6 +14,7 @@
         x:Name="mainWindow">
     <Window.Resources>
         <converters:RatingColorConverter x:Key="RatingColorConverter"/>
+        <converters:DiscountConverter x:Key="DiscountConverter"/>
         <DataTemplate x:Key="MovieItemTemplate">
             <Border Width="150"
                     Height="250"
@@ -199,7 +200,7 @@
                 <Ellipse Width="10" Height="10" x:Name="TicketTypeEllipse"/>
                 <TextBlock Margin="5,0" FontSize="13">
                     <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0} - {1} р.">
+                        <MultiBinding StringFormat="{}{0} - {1} r.">
                             <Binding Path="Name"/>
                             <Binding Path="Price"/>
                         </MultiBinding>
@@ -217,6 +218,52 @@
                     <Setter TargetName="TicketTypeEllipse" Property="Fill" Value="Red"/>
                 </DataTrigger>
             </DataTemplate.Triggers>
+        </DataTemplate>
+
+        <DataTemplate x:Key="DiscountTemplate">
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                    <ColumnDefinition/>
+                </Grid.ColumnDefinitions>
+                <TextBlock Grid.Column="0"
+                           VerticalAlignment="Center">
+                    <TextBlock.Text>
+                        <MultiBinding Converter="{StaticResource DiscountConverter}">
+                            <Binding Path="Name"/>
+                            <Binding Path="PriceMultiplier"/>
+                            <Binding RelativeSource="{RelativeSource AncestorType=Grid, AncestorLevel=2}" Path="DataContext.Price"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="TicketPriceWithDiscountsTemplate">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="20"/>
+                    <RowDefinition/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0">
+                    <TextBlock.Text>
+                        <MultiBinding StringFormat="{}{0} - {1} r.">
+                            <Binding Path="Name"/>
+                            <Binding Path="Price"/>
+                        </MultiBinding>
+                    </TextBlock.Text>
+                </TextBlock>
+                <ItemsControl ItemsSource="{Binding Discounts}"
+                              ItemTemplate="{DynamicResource DiscountTemplate}"
+                              Grid.Row="1">
+                    <ItemsControl.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <StackPanel Orientation="Vertical"/>
+                        </ItemsPanelTemplate>
+                    </ItemsControl.ItemsPanel>
+                </ItemsControl>
+            </Grid>
         </DataTemplate>
     </Window.Resources>
     <Border Background="{DynamicResource Window.Background.Static}">
@@ -294,7 +341,7 @@
                         Background="{DynamicResource Window.Background.Static}"
                         Effect="{DynamicResource myShadow}"
                         CornerRadius="10,0,0,10"
-                        Width="0">
+                        Width="500">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
@@ -407,6 +454,7 @@
 
                                     <Button Grid.Column="2"
                                             Style="{DynamicResource ButtonStyle2}"
+                                            Command="{Binding BuyButtonCommand}"
                                             Content="Buy"
                                             VerticalAlignment="Center"
                                             HorizontalAlignment="Center"
@@ -421,6 +469,35 @@
                                         <Setter Property="IsEnabled" Value="False"/>
                                         <Style.Triggers>
                                             <DataTrigger Binding="{Binding SelectedSubPage}" Value="1">
+                                                <Setter Property="Visibility" Value="Visible"/>
+                                                <Setter Property="IsEnabled" Value="True"/>
+                                            </DataTrigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </Grid.Style>
+                            </Grid>
+
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition/>
+                                </Grid.ColumnDefinitions>
+                                <ItemsControl ItemsSource="{Binding Path=Tickets}"
+                                              ItemTemplate="{DynamicResource TicketPriceWithDiscountsTemplate}"
+                                              Grid.Column="0"
+                                              Margin="5">
+                                    <ItemsControl.ItemsPanel>
+                                        <ItemsPanelTemplate>
+                                            <StackPanel Orientation="Vertical"/>
+                                        </ItemsPanelTemplate>
+                                    </ItemsControl.ItemsPanel>
+                                </ItemsControl>
+                                <Grid.Style>
+                                    <Style TargetType="{x:Type Grid}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                        <Setter Property="IsEnabled" Value="False"/>
+                                        <Style.Triggers>
+                                            <DataTrigger Binding="{Binding SelectedSubPage}" Value="2">
                                                 <Setter Property="Visibility" Value="Visible"/>
                                                 <Setter Property="IsEnabled" Value="True"/>
                                             </DataTrigger>

@@ -6,6 +6,6 @@
         public string? TicketName {  get; set; }
         public string? Name { get; set; }
         public double Price { get; set; }
-        public List<double>? Discounts { get; set; }
+        public List<Discount>? Discounts { get; set; }
     }
 }
