@@ -1,6 +1,7 @@
 ﻿using System.Collections.ObjectModel;
 using System.Collections.Specialized;
 using System.Diagnostics;
+using System.Windows.Controls.Primitives;
 using System.Windows.Input;
 using TicketBooking.classes;
 using TicketBooking.models;
@@ -37,6 +38,7 @@ namespace TicketBooking.viewmodels
             }
         }
 
+        //final ticket list
         private ObservableCollection<Ticket> _ticketCollection = new ObservableCollection<Ticket>();
         public ObservableCollection<Ticket> Tickets
         {
@@ -44,6 +46,18 @@ namespace TicketBooking.viewmodels
             set
             {
                 _ticketCollection = value;
+                OnPropertyChanged();
+            }
+        }
+
+        //list of available ticket types
+        private ObservableCollection<TicketType> _ticketTypesCollection = new ObservableCollection<TicketType>();
+        public ObservableCollection<TicketType> TicketTypes
+        {
+            get { return _ticketTypesCollection; }
+            set
+            {
+                _ticketTypesCollection = value;
                 OnPropertyChanged();
             }
         }
@@ -139,9 +153,9 @@ namespace TicketBooking.viewmodels
                             SelectedMovie = movie; 
                             List<Row> rows = new List<Row>();
                             int rowsnum = random.Next() % 15;
-                            rows.Add(new Row() { Number = 1, Seats = new List<Seat> { new Seat() {Row = 1, Type=SeatType.Sofa, Status="Free", Number="1" }, new Seat() { Row = 1, Type = SeatType.Sofa, Status = "Free", Number = "2" } } });
+                            rows.Add(new Row() { Number = 1, Seats = new List<Seat> { new Seat() {Row = 1, Type=1, Color = "Red", Status ="Free", Number="1" }, new Seat() { Row = 1, Type = 1, Color ="Red", Status = "Free", Number = "2" } } });
                             for (int i = 1; i < rowsnum; i++) rows.Add(new Row() { Seats = GetSeats(i + 1, random.Next()%15, random), Number = i + 1 });
-                            rows.Add(new Row() { Number = rowsnum+1, Seats = new List<Seat> { new Seat() { Row = rowsnum+1, Type = SeatType.Loveseat, Status = "Free", Number = "1" }, new Seat() { Row = rowsnum, Type = SeatType.Loveseat, Status = "Free", Number = "2" } } });
+                            rows.Add(new Row() { Number = rowsnum+1, Seats = new List<Seat> { new Seat() { Row = rowsnum+1, Type = 2, Color="Yellow", Status = "Free", Number = "1" }, new Seat() { Row = rowsnum, Type = 2, Color = "Yellow", Status = "Free", Number = "2" } } });
                             Hall = new Hall() { Rows = rows, MaxSeatsToPick = 6 };
                         }
                     }));
@@ -182,8 +196,22 @@ namespace TicketBooking.viewmodels
                 return _buyButtonCommand ??
                     (_buyButtonCommand = new RelayCommand(obj =>
                     {
-
-                    SelectedSubPage = 2; 
+                        Tickets.Clear();
+                        foreach (var seat in SelectedSeats)
+                        {
+                            if (seat == null) return;
+                            TicketType ticketType = TicketTypes.First(u => u.SeatType == seat.Type);
+                            if (ticketType == null) return;
+                            if (ticketType.Discounts == null || ticketType.Discounts.Count == 0) return;
+                            Tickets.Add(new Ticket
+                            {
+                                Seat = seat,
+                                SelectedDiscount = ticketType.Discounts[0],
+                                Name = ticketType.Name,
+                                Price = ticketType.Price
+                            });
+                        }
+                        SelectedSubPage = 2; 
                     }));
             }
         }
@@ -193,7 +221,7 @@ namespace TicketBooking.viewmodels
         private List<Seat> GetSeats(int rowNum, int seatsInARow, Random r)
         {
             List<Seat> seats = new List<Seat>();
-            for(int i = 0; i<seatsInARow; i++) seats.Add(new Seat() { Row=rowNum, Type = SeatType.Ordinary, Status = r.Next(10) < 5 ? "Free" : "Reserved", Number = (i + 1).ToString() });
+            for(int i = 0; i<seatsInARow; i++) seats.Add(new Seat() { Row=rowNum, Type = 0, Color="Pink", Status = r.Next(10) < 5 ? "Free" : "Reserved", Number = (i + 1).ToString() });
             return seats;
         }
         public MainWindowViewModel()
@@ -243,37 +271,64 @@ namespace TicketBooking.viewmodels
                 Time = new DateTime(1, 1, 1, 22, 25, 0)
             });
 
+            ObservableCollection<TicketType> tickets = new ObservableCollection<TicketType>();
             List<Discount> discounts = new List<Discount>()
             {
                 new Discount { Name = "Adult", PriceMultiplier = 1},
                 new Discount { Name = "Child", PriceMultiplier = 0.5},
                 new Discount { Name = "Student", PriceMultiplier = 0.75}
             };
-
-            _ticketCollection.Add(new Ticket()
+            List<Discount> discounts1 = new List<Discount>()
             {
-                SeatType=SeatType.Ordinary,
+                new Discount { Name = "Adult", PriceMultiplier = 1},
+                new Discount { Name = "Child", PriceMultiplier = 0.5},
+                new Discount { Name = "Student", PriceMultiplier = 0.75}
+            };
+            List<Discount> discounts2 = new List<Discount>()
+            {
+                new Discount { Name = "Adult", PriceMultiplier = 1},
+                new Discount { Name = "Child", PriceMultiplier = 0.5},
+                new Discount { Name = "Student", PriceMultiplier = 0.75}
+            };
+
+            tickets.Add(new TicketType()
+            {
+                SeatType=0,
+                Color="Pink",
                 Price=8,
                 Name="Ordinary",
                 Discounts = discounts
             });
-            _ticketCollection.Add(new Ticket()
+            tickets.Add(new TicketType()
             {
-                SeatType=SeatType.Sofa,
+                SeatType=1,
+                Color="Red",
                 Price=22,
                 Name="Sofa",
-                Discounts = discounts
+                Discounts = discounts1
             });
-            _ticketCollection.Add(new Ticket()
+            tickets.Add(new TicketType()
             {
-                SeatType=SeatType.Loveseat,
+                SeatType=2,
+                Color="Yellow",
                 Price=18,
                 Name="Loveseat",
-                Discounts = discounts
+                Discounts = discounts2
             });
+            TicketTypes = new ObservableCollection<TicketType>(tickets);
 
             SelectedSeats.CollectionChanged += SelectedSeats_CollectionChanged;
             random = new Random();
+        }
+
+        private void CalculateTotalPrice()
+        {
+            double sum = 0;
+            foreach (var seat in SelectedSeats)
+            {
+                sum += _ticketTypesCollection.First(u => u.SeatType == seat.Type).Price;
+            }
+            TotalAmount = sum;
         }
 
         private void SelectedSeats_CollectionChanged(object? sender, NotifyCollectionChangedEventArgs e)
@@ -292,14 +347,7 @@ namespace TicketBooking.viewmodels
                 SelectedSeats = _nseats;
                 SelectedSeats.CollectionChanged += SelectedSeats_CollectionChanged;
             }
-
-            double sum = 0;
-            foreach (var seat in SelectedSeats)
-            {
-                sum += _ticketCollection.First(u => u.SeatType == seat.Type).Price;
-            }
-            TotalAmount = sum;
-            Debug.WriteLine(TotalAmount);
+            CalculateTotalPrice();
         }
     }
 }

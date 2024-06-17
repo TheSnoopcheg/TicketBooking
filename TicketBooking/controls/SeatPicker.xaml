@@ -57,7 +57,8 @@
                                      Width="{TemplateBinding Width}"
                                      HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
                                      VerticalAlignment="{TemplateBinding VerticalContentAlignment}"
-                                     x:Name="backEllipse">
+                                     x:Name="backEllipse"
+                                     Fill="{Binding Color}">
                                 <Ellipse.RenderTransform>
                                     <ScaleTransform ScaleX="1" 
                                                     ScaleY="1" 
@@ -71,15 +72,6 @@
                                               VerticalAlignment="{TemplateBinding VerticalContentAlignment}"/>
                         </Grid>
                         <ControlTemplate.Triggers>
-                            <DataTrigger Binding="{Binding Type}" Value="Ordinary">
-                                <Setter TargetName="backEllipse" Property="Fill" Value="Pink"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Type}" Value="Sofa">
-                                <Setter TargetName="backEllipse" Property="Fill" Value="Yellow"/>
-                            </DataTrigger>
-                            <DataTrigger Binding="{Binding Type}" Value="Loveseat">
-                                <Setter TargetName="backEllipse" Property="Fill" Value="Red"/>
-                            </DataTrigger>
                             <DataTrigger Binding="{Binding Status}" Value="Reserved">
                                 <Setter TargetName="backEllipse" Property="Fill" Value="Gray"/>
                             </DataTrigger>

@@ -14,7 +14,6 @@
         x:Name="mainWindow">
     <Window.Resources>
         <converters:RatingColorConverter x:Key="RatingColorConverter"/>
-        <converters:DiscountConverter x:Key="DiscountConverter"/>
         <DataTemplate x:Key="MovieItemTemplate">
             <Border Width="150"
                     Height="250"
@@ -197,7 +196,8 @@
         </DataTemplate>
         <DataTemplate x:Key="TicketPriceTemplate">
             <StackPanel Orientation="Horizontal" Margin="5,0">
-                <Ellipse Width="10" Height="10" x:Name="TicketTypeEllipse"/>
+                <Ellipse Width="10" Height="10" x:Name="TicketTypeEllipse"
+                         Fill="{Binding Color}"/>
                 <TextBlock Margin="5,0" FontSize="13">
                     <TextBlock.Text>
                         <MultiBinding StringFormat="{}{0} - {1} r.">
@@ -207,63 +207,6 @@
                     </TextBlock.Text>
                 </TextBlock>
             </StackPanel>
-            <DataTemplate.Triggers>
-                <DataTrigger Binding="{Binding SeatType}" Value="Ordinary">
-                    <Setter TargetName="TicketTypeEllipse" Property="Fill" Value="Pink"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SeatType}" Value="Sofa">
-                    <Setter TargetName="TicketTypeEllipse" Property="Fill" Value="Yellow"/>
-                </DataTrigger>
-                <DataTrigger Binding="{Binding SeatType}" Value="Loveseat">
-                    <Setter TargetName="TicketTypeEllipse" Property="Fill" Value="Red"/>
-                </DataTrigger>
-            </DataTemplate.Triggers>
-        </DataTemplate>
-
-        <DataTemplate x:Key="DiscountTemplate">
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                    <ColumnDefinition/>
-                </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"
-                           VerticalAlignment="Center">
-                    <TextBlock.Text>
-                        <MultiBinding Converter="{StaticResource DiscountConverter}">
-                            <Binding Path="Name"/>
-                            <Binding Path="PriceMultiplier"/>
-                            <Binding RelativeSource="{RelativeSource AncestorType=Grid, AncestorLevel=2}" Path="DataContext.Price"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-            </Grid>
-        </DataTemplate>
-
-        <DataTemplate x:Key="TicketPriceWithDiscountsTemplate">
-            <Grid>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="20"/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0">
-                    <TextBlock.Text>
-                        <MultiBinding StringFormat="{}{0} - {1} r.">
-                            <Binding Path="Name"/>
-                            <Binding Path="Price"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
-                <ItemsControl ItemsSource="{Binding Discounts}"
-                              ItemTemplate="{DynamicResource DiscountTemplate}"
-                              Grid.Row="1">
-                    <ItemsControl.ItemsPanel>
-                        <ItemsPanelTemplate>
-                            <StackPanel Orientation="Vertical"/>
-                        </ItemsPanelTemplate>
-                    </ItemsControl.ItemsPanel>
-                </ItemsControl>
-            </Grid>
         </DataTemplate>
     </Window.Resources>
     <Border Background="{DynamicResource Window.Background.Static}">
@@ -371,7 +314,7 @@
                                    Grid.Column="0"
                                    Height="300"/>
                             <StackPanel Grid.Column="1"
-                                        Margin="5,5,0,0">
+                                        Margin="5,0,5,0">
                                 <TextBlock Text="{Binding SelectedMovie.Title}"
                                            FontSize="16"
                                            FontWeight="DemiBold"
@@ -434,7 +377,7 @@
                                         <ColumnDefinition Width="110"/>
                                     </Grid.ColumnDefinitions>
 
-                                    <ItemsControl ItemsSource="{Binding Tickets}"
+                                    <ItemsControl ItemsSource="{Binding TicketTypes}"
                                                   ItemTemplate="{DynamicResource TicketPriceTemplate}"
                                                   Grid.Column="0"
                                                   VerticalAlignment="Center">
@@ -479,19 +422,23 @@
 
                             <Grid>
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="300"/>
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
-                                <ItemsControl ItemsSource="{Binding Path=Tickets}"
-                                              ItemTemplate="{DynamicResource TicketPriceWithDiscountsTemplate}"
-                                              Grid.Column="0"
-                                              Margin="5">
-                                    <ItemsControl.ItemsPanel>
-                                        <ItemsPanelTemplate>
-                                            <StackPanel Orientation="Vertical"/>
-                                        </ItemsPanelTemplate>
-                                    </ItemsControl.ItemsPanel>
-                                </ItemsControl>
+                                <controls:TicketPricingSelector Grid.Column="0"
+                                                                Tickets="{Binding Tickets}"
+                                                                TicketTypes="{Binding TicketTypes}"/>
+                                <StackPanel Grid.Column="1"
+                                            Margin="5"
+                                            Orientation="Vertical">
+                                    <TextBlock Text="Total price"
+                                               FontSize="20"
+                                               FontWeight="DemiBold"/>
+                                    <TextBlock Text="{Binding Path=TotalAmount, StringFormat={}{0} r.}"
+                                               FontSize="16"
+                                               FontWeight="DemiBold"/>
+                                </StackPanel>
+                                
                                 <Grid.Style>
                                     <Style TargetType="{x:Type Grid}">
                                         <Setter Property="Visibility" Value="Collapsed"/>

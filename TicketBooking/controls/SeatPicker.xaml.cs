@@ -14,7 +14,7 @@ namespace TicketBooking.controls
     /// <summary>
     /// Interaction logic for SeatPicker.xaml
     /// </summary>
-    public partial class SeatPicker : UserControl
+    public partial class SeatPicker : UserControl, INotifyPropertyChanged
     {
         private ItemsControl _rowsView;
         private bool _bSelectedSeatsChanged = false;
@@ -49,7 +49,6 @@ namespace TicketBooking.controls
 
         private static void OnSelectedSeatsChanged(DependencyObject d, DependencyPropertyChangedEventArgs e)
         {
-            Debug.WriteLine("SelectedSeatsChanged FIRED");
             var picker = (SeatPicker)d;
             if(picker == null)
             {
@@ -77,12 +76,12 @@ namespace TicketBooking.controls
         private void ItemContainerGenerator_StatusChanged(object? sender, EventArgs e)
         {
             var icg = sender as ItemContainerGenerator;
-            if( icg == null )
+            if (icg == null)
             {
                 return;
             }
             Debug.WriteLine(icg.Status);
-            if(icg.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
+            if (icg.Status == System.Windows.Controls.Primitives.GeneratorStatus.ContainersGenerated)
             {
                 if (_bSelectedSeatsChanged)
                 {

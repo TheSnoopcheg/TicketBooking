@@ -1,11 +1,11 @@
 ﻿namespace TicketBooking.classes
 {
-    internal class Ticket
+    public class Ticket
     {
-        public SeatType SeatType { get; set; }
-        public string? TicketName {  get; set; }
-        public string? Name { get; set; }
+        public int Id { get; set; }
+        public Seat? Seat { get; set; }
+        public string? Name {  get; set; }
         public double Price { get; set; }
-        public List<Discount>? Discounts { get; set; }
+        public Discount? SelectedDiscount { get; set; }
     }
 }
