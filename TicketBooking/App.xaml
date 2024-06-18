@@ -55,6 +55,9 @@
                                 <Trigger Property="IsPressed" Value="true">
                                     <Setter Property="Background" TargetName="border" Value="{DynamicResource Button1.Pressed.Background}"/>
                                 </Trigger>
+                                <Trigger Property="IsEnabled" Value="False">
+                                    <Setter Property="Background" TargetName="border" Value="{DynamicResource Button1.Disabled.Background}"/>
+                                </Trigger>
                             </ControlTemplate.Triggers>
                         </ControlTemplate>
                     </Setter.Value>

@@ -22,6 +22,8 @@ namespace TicketBooking.controls
 
         private void TicketPricingSelector_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            var selector = sender as TicketPricingSelector;
+            if (selector == null || !selector.IsVisible) return;
             UpdateDiscountCounts();
         }
 
@@ -55,11 +57,7 @@ namespace TicketBooking.controls
         {
             foreach(var ticketType in TicketTypes)
             {
-                if (ticketType.Discounts == null) return;
-                foreach(var discount in ticketType.Discounts)
-                {
-                    discount.Count = Tickets.Count(u => u.SelectedDiscount == discount && u.Name == ticketType.Name);
-                }
+                ticketType.NumOfTickets = Tickets.Count(u => u.Name == ticketType.Name);
             }
         }
 
@@ -77,9 +75,40 @@ namespace TicketBooking.controls
                 return _changeDiscountCommand ??
                     (_changeDiscountCommand = new RelayCommand(obj =>
                     {
+                        if(obj is not object[] objects || objects.Length < 3) return;
+                        var discount = objects[0] as Discount;
+                        var ticketType = objects[1] as TicketType;
+                        var param = objects[2] as string;
+                        if(discount == null || ticketType == null || string.IsNullOrEmpty(param)) return;
 
+                        Ticket? ticket;
+                        if(param == "+")
+                        {
+                            ticket = Tickets.FirstOrDefault(u => u.Name == ticketType.Name && u.SelectedDiscount == ticketType.Discounts[0]);
+                            UpdateCountAndSelectedDiscount(discount, ticketType, ticket, true);
+                        }
+                        else if (param == "-")
+                        {
+                            ticket = Tickets.FirstOrDefault(u => u.Name == ticketType.Name && u.SelectedDiscount == discount);
+                            UpdateCountAndSelectedDiscount(discount, ticketType, ticket, false);
+                        }
+                        CalculateTotalPrice();
                     }));
             }
+        }
+
+        private void UpdateCountAndSelectedDiscount(Discount discount, TicketType ticketType, Ticket? ticket, bool incerement)
+        {
+            if (ticket == null) return;
+            int countChange = incerement ? 1 : -1;
+            discount.Count += countChange;
+            ticketType.NumOfSelectedDiscounts += countChange;
+            ticket.SelectedDiscount = incerement ? discount : ticketType.Discounts![0];
+        }
+
+        private void CalculateTotalPrice()
+        {
+            TotalPrice = Tickets.Sum(ticket => ticket.Price * ticket.SelectedDiscount!.PriceMultiplier);
         }
 
         public event PropertyChangedEventHandler? PropertyChanged;

@@ -9,6 +9,7 @@
     <Color x:Key="Button1.Background" R="52" G="97" B="235" A="255"/>
     <Color x:Key="Button1.Background.MouseOver" R="52" G="97" B="207" A="255"/>
     <Color x:Key="Button1.Background.Pressed" R="52" G="97" B="187" A="255"/>
+    <Color x:Key="Button1.Background.Disabled" R="97" G="97" B="97" A="255"/>
     <Color x:Key="Button1.Foreground" R="255" G="255" B="255" A="255"/>
     <Color x:Key="Button2.Background" R="0" G="0" B="0" A="0"/>
     <Color x:Key="Button2.Background.MouseOver" R="235" G="235" B="235" A="255"/>
@@ -35,6 +36,7 @@
     <SolidColorBrush x:Key="Button1.Static.Background" Color="{StaticResource Button1.Background}"/>
     <SolidColorBrush x:Key="Button1.MouseOver.Background" Color="{StaticResource Button1.Background.MouseOver}"/>
     <SolidColorBrush x:Key="Button1.Pressed.Background" Color="{StaticResource Button1.Background.Pressed}"/>
+    <SolidColorBrush x:Key="Button1.Disabled.Background" Color="{StaticResource Button1.Background.Disabled}"/>
     <SolidColorBrush x:Key="Button1.Static.Foreground" Color="{StaticResource Button1.Foreground}"/>
     <SolidColorBrush x:Key="Button2.Static.Background" Color="{StaticResource Button2.Background}"/>
     <SolidColorBrush x:Key="Button2.MouseOver.Background" Color="{StaticResource Button2.Background.MouseOver}"/>

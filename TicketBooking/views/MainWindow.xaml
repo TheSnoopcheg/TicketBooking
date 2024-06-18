@@ -284,7 +284,7 @@
                         Background="{DynamicResource Window.Background.Static}"
                         Effect="{DynamicResource myShadow}"
                         CornerRadius="10,0,0,10"
-                        Width="500">
+                        Width="0">
                     <Grid>
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
@@ -427,7 +427,8 @@
                                 </Grid.ColumnDefinitions>
                                 <controls:TicketPricingSelector Grid.Column="0"
                                                                 Tickets="{Binding Tickets}"
-                                                                TicketTypes="{Binding TicketTypes}"/>
+                                                                TicketTypes="{Binding TicketTypes}"
+                                                                TotalPrice="{Binding TotalAmount, Mode=TwoWay}"/>
                                 <StackPanel Grid.Column="1"
                                             Margin="5"
                                             Orientation="Vertical">

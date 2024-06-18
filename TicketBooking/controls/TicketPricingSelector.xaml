@@ -5,12 +5,17 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:TicketBooking.controls"
              xmlns:converters="clr-namespace:TicketBooking.converters"
+             xmlns:sys="clr-namespace:System;assembly=mscorlib"
              mc:Ignorable="d" 
              d:DesignHeight="450" d:DesignWidth="800"
              x:Name="root">
     <UserControl.Resources>
         <converters:DiscountConverter x:Key="DiscountConverter"/>
         <converters:DiscountCollectionConverter x:Key="DiscountCollectionConverter"/>
+        <converters:ItemsCloneConverter x:Key="ItemsCloneConverter"/>
+        <converters:DiscountButtonIsEnableConverter x:Key="DiscountButtonIsEnableConverter"/>
+        <sys:String x:Key="addParam">+</sys:String>
+        <sys:String x:Key="removeParam">-</sys:String>
         <DataTemplate x:Key="DiscountTemplate">
             <Grid>
                 <Grid.ColumnDefinitions>
@@ -35,6 +40,20 @@
                             Height="20"
                             Padding="0"
                             Command="{Binding ElementName=root, Path=ChangeDiscountCommand}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource ItemsCloneConverter}">
+                                <Binding Path=""/>
+                                <Binding RelativeSource="{RelativeSource AncestorType=Grid, AncestorLevel=2}" Path="DataContext"/>
+                                <Binding Source="{StaticResource addParam}"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource DiscountButtonIsEnableConverter}" ConverterParameter="+">
+                                <Binding Path=""/>
+                                <Binding RelativeSource="{RelativeSource AncestorType=Grid, AncestorLevel=2}" Path="DataContext"/>
+                                <Binding RelativeSource="{RelativeSource AncestorType=Grid, AncestorLevel=2}" Path="DataContext.NumOfSelectedDiscounts"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
                         <Path Data="{DynamicResource plusIcon}"
                               Stretch="Fill"
                               Stroke="{DynamicResource Button1.Static.Foreground}"
@@ -53,6 +72,20 @@
                             Height="20"
                             Padding="0"
                             Command="{Binding ElementName=root, Path=ChangeDiscountCommand}">
+                        <Button.CommandParameter>
+                            <MultiBinding Converter="{StaticResource ItemsCloneConverter}">
+                                <Binding Path=""/>
+                                <Binding RelativeSource="{RelativeSource AncestorType=Grid, AncestorLevel=2}" Path="DataContext"/>
+                                <Binding Source="{StaticResource removeParam}"/>
+                            </MultiBinding>
+                        </Button.CommandParameter>
+                        <Button.IsEnabled>
+                            <MultiBinding Converter="{StaticResource DiscountButtonIsEnableConverter}" ConverterParameter="-">
+                                <Binding Path=""/>
+                                <Binding RelativeSource="{RelativeSource AncestorType=Grid, AncestorLevel=2}" Path="DataContext"/>
+                                <Binding RelativeSource="{RelativeSource AncestorType=Grid, AncestorLevel=2}" Path="DataContext.NumOfSelectedDiscounts"/>
+                            </MultiBinding>
+                        </Button.IsEnabled>
                         <Path Data="{DynamicResource minusIcon}"
                               Stretch="Fill"
                               Stroke="{DynamicResource Button1.Static.Foreground}"
@@ -77,7 +110,7 @@
                         <MultiBinding StringFormat="{}{0} - {1} r. (Chosen: {2})">
                             <Binding Path="Name"/>
                             <Binding Path="Price"/>
-                            <Binding Path="Discounts[0].Count" UpdateSourceTrigger="PropertyChanged"/>
+                            <Binding Path="NumOfTickets"/>
                         </MultiBinding>
                     </TextBlock.Text>
                 </TextBlock>
@@ -91,14 +124,23 @@
                         </ItemsPanelTemplate>
                     </ItemsControl.ItemsPanel>
                 </ItemsControl>
+                <Grid.Style>
+                    <Style TargetType="{x:Type Grid}">
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding NumOfTickets}" Value="0">
+                                <Setter Property="Visibility" Value="Collapsed"/>
+                            </DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Grid.Style>
             </Grid>
         </DataTemplate>
     </UserControl.Resources>
     <Grid>
         <ItemsControl ItemsSource="{Binding ElementName=root, Path=TicketTypes}"
-              ItemTemplate="{DynamicResource TicketPriceWithDiscountsTemplate}"
-              Grid.Column="0"
-              Margin="5">
+                      ItemTemplate="{DynamicResource TicketPriceWithDiscountsTemplate}"
+                      Grid.Column="0"
+                      Margin="5">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <StackPanel Orientation="Vertical"/>
