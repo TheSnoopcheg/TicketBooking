@@ -15,6 +15,9 @@
     <Color x:Key="Button2.Background.MouseOver" R="235" G="235" B="235" A="255"/>
     <Color x:Key="Button2.Background.Pressed" R="215" G="215" B="215" A="255"/>
     <Color x:Key="Button2.Foreground" R="52" G="97" B="207" A="255"/>
+    <Color x:Key="Button2.Foreground.Disabled" R="157" G="157" B="157" A="255"/>
+    <Color x:Key="Button3.Background.MouseOver" R="226" G="226" B="226" A="255"/>
+    <Color x:Key="Button3.Background.Pressed" R="206" G="206" B="206" A="255"/>
 
     <Color x:Key="MovieItem.Background" R="255" G="255" B="255" A="255"/>
     <Color x:Key="MovieItem.Foreground" R="0" G="0" B="0" A="255"/>
@@ -26,6 +29,9 @@
 
     <Color x:Key="ModalWindow.Background" R="255" G="255" B="255" A="255"/>
     <Color x:Key="ModalWindow.Text.Foreground" R="0" G="0" B="0" A="255"/>
+
+    <Color x:Key="ScrollBar.Thumb.Background" R="211" G="211" B="211" A="255"/>
+    <Color x:Key="ScrollBar.Thumb.Background.MouseOver" R="191" G="191" B="191" A="255"/>
 
     <SolidColorBrush x:Key="Window.Background.Static" Color="{StaticResource Window.Background}"/>
     <SolidColorBrush x:Key="Window.Title.Background.Static" Color="{StaticResource Window.Title.Background}"/>
@@ -41,7 +47,10 @@
     <SolidColorBrush x:Key="Button2.Static.Background" Color="{StaticResource Button2.Background}"/>
     <SolidColorBrush x:Key="Button2.MouseOver.Background" Color="{StaticResource Button2.Background.MouseOver}"/>
     <SolidColorBrush x:Key="Button2.Pressed.Background" Color="{StaticResource Button2.Background.Pressed}"/>
-    <SolidColorBrush x:Key="Button2.Foreground.Static" Color="{StaticResource Button2.Foreground}"/>
+    <SolidColorBrush x:Key="Button2.Static.Foreground" Color="{StaticResource Button2.Foreground}"/>
+    <SolidColorBrush x:Key="Button2.Disabled.Foreground" Color="{StaticResource Button2.Foreground.Disabled}"/>
+    <SolidColorBrush x:Key="Button3.MouseOver.Background" Color="{StaticResource Button3.Background.MouseOver}"/>
+    <SolidColorBrush x:Key="Button3.Pressed.Background" Color="{StaticResource Button3.Background.Pressed}"/>
 
     <SolidColorBrush x:Key="MovieItem.Background.Static" Color="{StaticResource MovieItem.Background}"/>
     <SolidColorBrush x:Key="MovieItem.Foreground.Static" Color="{StaticResource MovieItem.Foreground}"/>
@@ -53,4 +62,8 @@
 
     <SolidColorBrush x:Key="ModalWinodw.Background.Static" Color="{StaticResource ModalWindow.Background}"/>
     <SolidColorBrush x:Key="ModalWinodw.Text.Foreground.Static" Color="{StaticResource ModalWindow.Text.Foreground}"/>
+
+    <SolidColorBrush x:Key="ScrollBar.Thumb.Static.Background" Color="{StaticResource ScrollBar.Thumb.Background}"/>
+    <SolidColorBrush x:Key="ScrollBar.Thumb.MouseOver.Background" Color="{StaticResource ScrollBar.Thumb.Background.MouseOver}"/>
+
 </ResourceDictionary>

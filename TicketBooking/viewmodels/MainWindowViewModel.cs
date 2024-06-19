@@ -104,6 +104,16 @@ namespace TicketBooking.viewmodels
                 OnPropertyChanged();
             }
         }
+        private Session? _selectedSession;
+        public Session? SelectedSession
+        {
+            get { return _selectedSession; }
+            set
+            {
+                _selectedSession = value;
+                OnPropertyChanged();
+            }
+        }
 
         private Hall? _hall;
         public Hall? Hall
@@ -138,26 +148,24 @@ namespace TicketBooking.viewmodels
                 return _openInformationBar ??
                     (_openInformationBar = new RelayCommand(obj =>
                     {
-                        if(obj is Movie movie)
+                        if (obj is not Movie movie) return;
+                        if (movie == SelectedMovie) return;
+
+                        SelectedSubPage = 0;
+                        TotalAmount = 0;
+                        SelectedSeats.Clear();
+
+                        if (IsInformationBarOpen == false)
                         {
-                            if (movie == SelectedMovie) return;
-
-                            SelectedSubPage = 0;
-                            TotalAmount = 0;
-                            SelectedSeats.Clear();
-
-                            if(IsInformationBarOpen == false)
-                            {
-                                IsInformationBarOpen = true;
-                            }
-                            SelectedMovie = movie; 
-                            List<Row> rows = new List<Row>();
-                            int rowsnum = random.Next() % 15;
-                            rows.Add(new Row() { Number = 1, Seats = new List<Seat> { new Seat() {Row = 1, Type=1, Color = "Red", Status ="Free", Number="1" }, new Seat() { Row = 1, Type = 1, Color ="Red", Status = "Free", Number = "2" } } });
-                            for (int i = 1; i < rowsnum; i++) rows.Add(new Row() { Seats = GetSeats(i + 1, random.Next()%15, random), Number = i + 1 });
-                            rows.Add(new Row() { Number = rowsnum+1, Seats = new List<Seat> { new Seat() { Row = rowsnum+1, Type = 2, Color="Yellow", Status = "Free", Number = "1" }, new Seat() { Row = rowsnum, Type = 2, Color = "Yellow", Status = "Free", Number = "2" } } });
-                            Hall = new Hall() { Rows = rows, MaxSeatsToPick = 6 };
+                            IsInformationBarOpen = true;
                         }
+                        SelectedMovie = movie;
+                        List<Row> rows = new List<Row>();
+                        int rowsnum = random.Next() % 15;
+                        rows.Add(new Row() { Number = 1, Seats = new List<Seat> { new Seat() { Row = 1, Type = 1, Color = "Red", Status = "Free", Number = "1" }, new Seat() { Row = 1, Type = 1, Color = "Red", Status = "Free", Number = "2" } } });
+                        for (int i = 1; i < rowsnum; i++) rows.Add(new Row() { Seats = GetSeats(i + 1, random.Next() % 15, random), Number = i + 1 });
+                        rows.Add(new Row() { Number = rowsnum + 1, Seats = new List<Seat> { new Seat() { Row = rowsnum + 1, Type = 2, Color = "Yellow", Status = "Free", Number = "1" }, new Seat() { Row = rowsnum, Type = 2, Color = "Yellow", Status = "Free", Number = "2" } } });
+                        Hall = new Hall() { Rows = rows, MaxSeatsToPick = 6 };
                     }));
             }
         }
@@ -183,7 +191,21 @@ namespace TicketBooking.viewmodels
                 return _openSessionView ??
                     (_openSessionView = new RelayCommand(obj =>
                     {
+                        if (obj is not Session session) return;
+                        SelectedSession = session;
                         SelectedSubPage = 1;
+                    }));
+            }
+        }
+        private ICommand? _goToBackViewCommand;
+        public ICommand GoToBackViewCommand
+        {
+            get
+            {
+                return _goToBackViewCommand ??
+                    (_goToBackViewCommand = new RelayCommand(obj =>
+                    {
+                        SelectedSubPage -= 1;
                     }));
             }
         }

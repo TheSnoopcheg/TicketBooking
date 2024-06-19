@@ -17,7 +17,7 @@
         <sys:String x:Key="addParam">+</sys:String>
         <sys:String x:Key="removeParam">-</sys:String>
         <DataTemplate x:Key="DiscountTemplate">
-            <Grid>
+            <Grid Margin="0,1,0,1">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="150"/>
                     <ColumnDefinition/>
