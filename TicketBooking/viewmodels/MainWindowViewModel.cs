@@ -230,7 +230,7 @@ namespace TicketBooking.viewmodels
                                 Seat = seat,
                                 SelectedDiscount = ticketType.Discounts[0],
                                 Name = ticketType.Name,
-                                Price = ticketType.Price
+                                Price = ticketType.Price,
                             });
                         }
                         SelectedSubPage = 2; 

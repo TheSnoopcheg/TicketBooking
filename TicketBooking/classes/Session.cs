@@ -1,6 +1,6 @@
 ﻿namespace TicketBooking.classes
 {
-    internal class Session
+    public class Session
     {
         public int Hall { get; set; }
         public string? Format { get; set; }

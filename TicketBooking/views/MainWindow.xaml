@@ -492,9 +492,13 @@
                                               VerticalScrollBarVisibility="Auto"
                                               Grid.Column="0"
                                               Grid.Row="1">
-                                    <controls:TicketPricingSelector Tickets="{Binding Tickets}"
+                                    <!--<controls:TicketPricingSelector Tickets="{Binding Tickets}"
                                                                     TicketTypes="{Binding TicketTypes}"
-                                                                    TotalPrice="{Binding TotalAmount, Mode=TwoWay}"/>
+                                                                    TotalPrice="{Binding TotalAmount, Mode=TwoWay}"/>-->
+                                    <controls:TicketPresenter Tickets="{Binding Tickets}"
+                                                              Movie="{Binding SelectedMovie}"
+                                                              Session="{Binding SelectedSession}"
+                                                              TicketTypes="{Binding TicketTypes}"/>
                                 </ScrollViewer>
                                 <StackPanel Grid.Column="1"
                                             Grid.Row="1"
