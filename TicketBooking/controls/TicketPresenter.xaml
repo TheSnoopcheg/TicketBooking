@@ -9,8 +9,10 @@
              x:Name="root">
     <UserControl.Resources>
         <converters:TicketPriceComboBoxSourceSelector x:Key="TicketPriceComboBoxSourceSelector"/>
+        <converters:DiscountPriceConverter x:Key="DiscountPriceConverter"/>
+        <converters:DiscountNameConverter x:Key="DiscountNameConverter"/>
         <DataTemplate x:Key="DiscountTemplate">
-            <TextBlock Text="{Binding Name}"
+            <TextBlock Text="{Binding ., Converter={StaticResource DiscountNameConverter}}"
                        VerticalAlignment="Center"/>
         </DataTemplate>
         <DataTemplate x:Key="TicketTemplate">
@@ -25,7 +27,7 @@
                         <RowDefinition Height="20"/>
                         <RowDefinition Height="20"/>
                         <RowDefinition/>
-                        <RowDefinition Height="30"/>
+                        <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
 
                     <StackPanel Grid.Row="0"
@@ -62,11 +64,21 @@
                     <Grid Grid.Row="2"
                           Margin="5,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="40"/>
+                            <ColumnDefinition Width="Auto"/>
+                            <ColumnDefinition Width="Auto"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
                         <StackPanel Orientation="Vertical"
                                     Grid.Column="0">
+                            <TextBlock Text="Type"
+                                       FontSize="14"/>
+                            <TextBlock Text="{Binding Name}"
+                                       FontSize="14"
+                                       FontWeight="DemiBold"/>
+                        </StackPanel>
+                        <StackPanel Orientation="Vertical"
+                                    Grid.Column="1"
+                                    Margin="10,0">
                             <TextBlock Text="Row"
                                        FontSize="14"/>
                             <TextBlock Text="{Binding Seat.Row}"
@@ -74,7 +86,7 @@
                                        FontWeight="DemiBold"/>
                         </StackPanel>
                         <StackPanel Orientation="Vertical"
-                                    Grid.Column="1">
+                                    Grid.Column="2">
                             <TextBlock Text="Seat No."
                                        FontSize="14"/>
                             <TextBlock Text="{Binding Seat.Number}"
@@ -85,39 +97,46 @@
 
                     <Grid Grid.Row="3">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="190"/>
+                            <ColumnDefinition Width="60"/>
+                            <ColumnDefinition Width="130"/>
                             <ColumnDefinition/>
                         </Grid.ColumnDefinitions>
-                        <StackPanel Grid.Column="0"
-                                    Orientation="Horizontal">
-                            <TextBlock Text="Discount type:"
-                                       VerticalAlignment="Center"
-                                       Margin="5,0,0,0"
-                                       FontSize="13"/>
-                            <ComboBox Grid.Column="0"
-                                      ItemTemplate="{DynamicResource DiscountTemplate}"
-                                      SelectedItem="{Binding SelectedDiscount}"
-                                      ItemContainerStyle="{DynamicResource comboBoxItemStyle}"
-                                      Style="{DynamicResource ComboBoxStyle}"
-                                      Width="80"
-                                      Height="25"
-                                      Margin="5,0,0,0"
-                                      HorizontalAlignment="Left"
-                                      VerticalContentAlignment="Center">
-                                <ComboBox.ItemsSource>
-                                    <MultiBinding Converter="{StaticResource TicketPriceComboBoxSourceSelector}">
-                                        <Binding ElementName="root" Path="TicketTypes"/>
-                                        <Binding Path="Name"/>
-                                    </MultiBinding>
-                                </ComboBox.ItemsSource>
-                            </ComboBox>
-                        </StackPanel>
-                        
-                        <TextBlock Grid.Column="1"
-                                   Text="{Binding Price, StringFormat=Price: {0}}"
+                        <TextBlock Text="Discount type:"
+                                   TextWrapping="Wrap"
+                                   TextAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Margin="5,0,0,0"
+                                   FontSize="13"/>    
+                        <ComboBox Grid.Column="1"
+                                  ItemTemplate="{DynamicResource DiscountTemplate}"
+                                  SelectedItem="{Binding SelectedDiscount}"
+                                  ItemContainerStyle="{DynamicResource comboBoxItemStyle}"
+                                  Style="{DynamicResource ComboBoxStyle}"
+                                  Width="110"
+                                  Height="25"
+                                  Margin="5,0,0,0"
+                                  HorizontalAlignment="Left"
+                                  VerticalContentAlignment="Center"
+                                  SelectionChanged="ComboBox_SelectionChanged">
+                            <ComboBox.ItemsSource>
+                                <MultiBinding Converter="{StaticResource TicketPriceComboBoxSourceSelector}">
+                                    <Binding ElementName="root" Path="TicketTypes"/>
+                                    <Binding Path="Name"/>
+                                </MultiBinding>
+                            </ComboBox.ItemsSource>
+                        </ComboBox>    
+
+                        <TextBlock Grid.Column="2"
                                    VerticalAlignment="Center"
                                    FontSize="14"
-                                   FontWeight="DemiBold"/>
+                                   FontWeight="DemiBold">
+                            <TextBlock.Text>
+                                <MultiBinding StringFormat="Price: {0}" Converter="{StaticResource DiscountPriceConverter}">
+                                    <Binding Path="Price"/>
+                                    <Binding Path="SelectedDiscount"/>
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
                     </Grid>
                 </Grid>
             </Border>

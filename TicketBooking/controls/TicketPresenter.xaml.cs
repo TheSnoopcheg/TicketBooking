@@ -55,5 +55,25 @@ namespace TicketBooking.controls
             set { SetValue(TicketTypesProperty, value); }
         }
 
+        public static readonly DependencyProperty TotalPriceProperty = DependencyProperty.Register(
+            "TotalPrice",
+            typeof(double),
+            typeof(TicketPresenter),
+            new FrameworkPropertyMetadata(0d, FrameworkPropertyMetadataOptions.BindsTwoWayByDefault));
+        public double TotalPrice
+        {
+            get { return (double)GetValue(TotalPriceProperty); }
+            set { SetValue(TotalPriceProperty, value); }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            CalculateTotalPrice();
+        }
+
+        private void CalculateTotalPrice()
+        {
+            TotalPrice = Tickets.Sum(ticket => ticket.Price * ticket.SelectedDiscount!.PriceMultiplier);
+        }
     }
 }

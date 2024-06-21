@@ -136,6 +136,7 @@
                     <Style TargetType="{x:Type Button}">
                         <Setter Property="Command" Value="{Binding RelativeSource={RelativeSource AncestorType=Window}, Path=DataContext.OpenSessionView}"/>
                         <Setter Property="CommandParameter" Value="{Binding}"/>
+                        <Setter Property="Focusable" Value="False"/>
                         <Setter Property="Template">
                             <Setter.Value>
                                 <ControlTemplate>
@@ -273,7 +274,8 @@
                               VerticalScrollBarVisibility="Auto"
                               HorizontalScrollBarVisibility="Disabled">
                     <ItemsControl ItemsSource="{Binding Path=Movies}"
-                                  ItemTemplate="{DynamicResource MovieItemTemplate}">
+                                  ItemTemplate="{DynamicResource MovieItemTemplate}"
+                                  Focusable="False">
                         <ItemsControl.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <WrapPanel Orientation="Horizontal"/>
@@ -291,6 +293,7 @@
                         <Grid.RowDefinitions>
                             <RowDefinition Height="30"/>
                             <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="Auto" MaxHeight="30"/>
                             <RowDefinition/>
                         </Grid.RowDefinitions>
                         <Button Height="30"
@@ -342,10 +345,55 @@
                             </StackPanel>
                         </Grid>
                         <Grid Grid.Row="2">
+                            <Button Height="30"
+                                    Width="30"
+                                    Style="{DynamicResource ButtonStyle3}"
+                                    HorizontalAlignment="Left"
+                                    VerticalAlignment="Top"
+                                    Command="{Binding GoToBackViewCommand}">
+                                <Path Data="{DynamicResource leftArrow}"
+                                      Stretch="Fill"
+                                      Width="15"
+                                      Height="15"
+                                      Fill="{DynamicResource MovieInfoBar.Foreground.Static}"/>
+                            </Button>
+                            <StackPanel Orientation="Horizontal"
+                                        VerticalAlignment="Center"
+                                        HorizontalAlignment="Center">
+                                <TextBlock Text="{Binding SelectedSession.Time, StringFormat=Ti\\me: H:mm}"
+                                           FontSize="14"
+                                           FontWeight="DemiBold"
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"
+                                           Margin="5,0,5,0"/>
+                                <TextBlock Text="{Binding SelectedSession.Format, StringFormat=Format: {0}}"
+                                           FontSize="14"
+                                           FontWeight="DemiBold"
+                                           VerticalAlignment="Center"
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"
+                                           Margin="5,0,5,0"/>
+                                <TextBlock Text="{Binding SelectedSession.Hall, StringFormat=Hall: {0}}"
+                                           FontSize="14"
+                                           VerticalAlignment="Center"
+                                           FontWeight="DemiBold"
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"
+                                           Margin="5,0,5,0"/>
+                            </StackPanel>
+                            <Grid.Style>
+                                <Style TargetType="{x:Type Grid}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding SelectedSubPage}" Value="0">
+                                            <Setter Property="Visibility" Value="Collapsed"/>
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </Grid.Style>
+                        </Grid>
+                        <Grid Grid.Row="3">
                             <Grid>
                                 <ItemsControl ItemsSource="{Binding Sessions}"
                                               ItemTemplate="{DynamicResource SessionItemTemplate}"
-                                              Margin="5">
+                                              Margin="5"
+                                              Focusable="False">
                                     <ItemsControl.ItemsPanel>
                                         <ItemsPanelTemplate>
                                             <WrapPanel Orientation="Horizontal"/>
@@ -368,54 +416,18 @@
 
                             <Grid>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
                                     <RowDefinition/>
                                     <RowDefinition Height="50"/>
                                 </Grid.RowDefinitions>
-                                
-                                <Button Height="30"
-                                        Width="30"
-                                        Style="{DynamicResource ButtonStyle3}"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        Command="{Binding GoToBackViewCommand}">
-                                    <Path Data="{DynamicResource leftArrow}"
-                                          Stretch="Fill"
-                                          Width="15"
-                                          Height="15"
-                                          Fill="{DynamicResource MovieInfoBar.Foreground.Static}"/>
-                                </Button>
-                                <StackPanel Grid.Row="0"
-                                            Orientation="Horizontal"
-                                            VerticalAlignment="Center"
-                                            HorizontalAlignment="Center">
-                                    <TextBlock Text="{Binding SelectedSession.Time, StringFormat=Ti\\me: H:mm}"
-                                               FontSize="14"
-                                               FontWeight="DemiBold"
-                                               Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"
-                                               Margin="5,0,5,0"/>
-                                    <TextBlock Text="{Binding SelectedSession.Format, StringFormat=Format: {0}}"
-                                               FontSize="14"
-                                               FontWeight="DemiBold"
-                                               VerticalAlignment="Center"
-                                               Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"
-                                               Margin="5,0,5,0"/>
-                                    <TextBlock Text="{Binding SelectedSession.Hall, StringFormat=Hall: {0}}"
-                                               FontSize="14"
-                                               VerticalAlignment="Center"
-                                               FontWeight="DemiBold"
-                                               Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"
-                                               Margin="5,0,5,0"/>
-                                </StackPanel>
-                                
+
                                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                               VerticalScrollBarVisibility="Auto"
-                                              Grid.Row="1">
+                                              Grid.Row="0">
                                     <controls:SeatPicker Hall="{Binding Hall}"
                                                          SelectedSeats="{Binding Path=SelectedSeats, UpdateSourceTrigger=PropertyChanged}"/>
                                 </ScrollViewer>
                                 
-                                <Grid Grid.Row="2">
+                                <Grid Grid.Row="1">
                                     <Grid.ColumnDefinitions>
                                         <ColumnDefinition/>
                                         <ColumnDefinition Width="110"/>
@@ -472,36 +484,24 @@
                                     <ColumnDefinition/>
                                 </Grid.ColumnDefinitions>
                                 <Grid.RowDefinitions>
-                                    <RowDefinition Height="30"/>
                                     <RowDefinition/>
                                     <RowDefinition Height="50"/>
                                 </Grid.RowDefinitions>
-                                <Button Height="30"
-                                        Width="30"
-                                        Style="{DynamicResource ButtonStyle3}"
-                                        HorizontalAlignment="Left"
-                                        VerticalAlignment="Top"
-                                        Command="{Binding GoToBackViewCommand}">
-                                    <Path Data="{DynamicResource leftArrow}"
-                                          Stretch="Fill"
-                                          Width="15"
-                                          Height="15"
-                                          Fill="{DynamicResource MovieInfoBar.Foreground.Static}"/>
-                                </Button>
                                 <ScrollViewer HorizontalScrollBarVisibility="Disabled"
                                               VerticalScrollBarVisibility="Auto"
                                               Grid.Column="0"
-                                              Grid.Row="1">
+                                              Grid.Row="0">
                                     <!--<controls:TicketPricingSelector Tickets="{Binding Tickets}"
                                                                     TicketTypes="{Binding TicketTypes}"
                                                                     TotalPrice="{Binding TotalAmount, Mode=TwoWay}"/>-->
                                     <controls:TicketPresenter Tickets="{Binding Tickets}"
                                                               Movie="{Binding SelectedMovie}"
                                                               Session="{Binding SelectedSession}"
-                                                              TicketTypes="{Binding TicketTypes}"/>
+                                                              TicketTypes="{Binding TicketTypes}"
+                                                              TotalPrice="{Binding TotalAmount}"/>
                                 </ScrollViewer>
                                 <StackPanel Grid.Column="1"
-                                            Grid.Row="1"
+                                            Grid.Row="0"
                                             Margin="5"
                                             Orientation="Vertical">
                                     <TextBlock Text="Total price"
@@ -514,7 +514,7 @@
 
                                 <Button Style="{DynamicResource ButtonStyle2}"
                                         Grid.ColumnSpan="2"
-                                        Grid.Row="2"
+                                        Grid.Row="1"
                                         HorizontalAlignment="Center"
                                         VerticalAlignment="Bottom"
                                         Content="Buy"
@@ -522,9 +522,7 @@
                                         Width="150"
                                         FontSize="16"
                                         FontWeight="DemiBold"
-                                        Margin="5"/>    
-
-
+                                        Margin="5"/>
 
                                 <Grid.Style>
                                     <Style TargetType="{x:Type Grid}">
