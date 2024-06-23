@@ -334,6 +334,13 @@
                                            Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
                                 <TextBlock Text="{Binding SelectedMovie.Duration, StringFormat=Duration: {0}}"
                                            Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
+                                <TextBlock Text="{Binding SelectedMovie.Director, StringFormat=Director: {0}}"
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
+                                <TextBlock Text="{Binding SelectedMovie.Actors, StringFormat=Actors: {0}}"
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"
+                                           TextWrapping="Wrap"/>
+                                <TextBlock Text="{Binding SelectedMovie.AgeRestriction, StringFormat=Age restriction: {0}}"
+                                           Foreground="{DynamicResource MovieInfoBar.Foreground.Static}"/>
                                 <TextBlock Text="Description"
                                            FontSize="14"
                                            FontWeight="DemiBold"

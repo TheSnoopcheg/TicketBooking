@@ -49,6 +49,10 @@
     <Color x:Key="ComboBox.Item.Background.Selected" R="235" G="235" B="235" A="255"/>
     <Color x:Key="ComboBox.Item.Border.Selected" R="190" G="190" B="190" A="255"/>
 
+    <Color x:Key="ToolTip.Background" R="255" G="255" B="255" A="255"/>
+    <Color x:Key="ToolTip.Foreground" R="0" G="0" B="0" A="255"/>
+    <Color x:Key="ToolTip.BorderBrush" R="136" G="136" B="136" A="255"/>
+
     <SolidColorBrush x:Key="Window.Background.Static" Color="{StaticResource Window.Background}"/>
     <SolidColorBrush x:Key="Window.Title.Background.Static" Color="{StaticResource Window.Title.Background}"/>
     <SolidColorBrush x:Key="Window.Title.Foreground.Static" Color="{StaticResource Window.Title.Foreground}"/>
@@ -98,4 +102,7 @@
     <SolidColorBrush x:Key="ComboBox.Item.Selected.Background" Color="{StaticResource ComboBox.Item.Background.Selected}"/>
     <SolidColorBrush x:Key="ComboBox.Item.Selected.Border" Color="{StaticResource ComboBox.Item.Border.Selected}"/>
 
+    <SolidColorBrush x:Key="ToolTip.Static.Background" Color="{StaticResource ToolTip.Background}"/>
+    <SolidColorBrush x:Key="ToolTip.Static.Foreground" Color="{StaticResource ToolTip.Foreground}"/>
+    <SolidColorBrush x:Key="ToolTip.Static.BorderBrush" Color="{StaticResource ToolTip.BorderBrush}"/>
 </ResourceDictionary>

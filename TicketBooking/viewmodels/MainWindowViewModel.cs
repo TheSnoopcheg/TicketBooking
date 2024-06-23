@@ -272,6 +272,9 @@ namespace TicketBooking.viewmodels
                 Country = "Ireland, UK, USA, Hungary",
                 Duration = "141 min.",
                 Description = "The incredible tale about the fantastical evolution of Bella Baxter, a young woman brought back to life by the brilliant and unorthodox scientist Dr. Godwin Baxter",
+                AgeRestriction="18+",
+                Actors="Emma Stone, Mark Ruffalo, Willem Dafoe, Ramy Youseef, Jack Barton",
+                Director="Yorgos Lanthimos",
                 Rating =9.3 });
 
             _sessionsCollection.Add(new Session()
@@ -298,19 +301,7 @@ namespace TicketBooking.viewmodels
             {
                 new Discount { Name = "Adult", PriceMultiplier = 1},
                 new Discount { Name = "Child", PriceMultiplier = 0.5},
-                new Discount { Name = "Student", PriceMultiplier = 0.75}
-            };
-            List<Discount> discounts1 = new List<Discount>()
-            {
-                new Discount { Name = "Adult", PriceMultiplier = 1},
-                new Discount { Name = "Child", PriceMultiplier = 0.5},
-                new Discount { Name = "Student", PriceMultiplier = 0.75}
-            };
-            List<Discount> discounts2 = new List<Discount>()
-            {
-                new Discount { Name = "Adult", PriceMultiplier = 1},
-                new Discount { Name = "Child", PriceMultiplier = 0.5},
-                new Discount { Name = "Student", PriceMultiplier = 0.75}
+                new Discount { Name = "Student", PriceMultiplier = 0.75, Requirements="Need to show student ID"}
             };
 
             tickets.Add(new TicketType()
@@ -327,7 +318,7 @@ namespace TicketBooking.viewmodels
                 Color="Red",
                 Price=22,
                 Name="Sofa",
-                Discounts = discounts1
+                Discounts = discounts
             });
             tickets.Add(new TicketType()
             {
@@ -335,7 +326,7 @@ namespace TicketBooking.viewmodels
                 Color="Yellow",
                 Price=18,
                 Name="Loveseat",
-                Discounts = discounts2
+                Discounts = discounts
             });
             TicketTypes = new ObservableCollection<TicketType>(tickets);
 

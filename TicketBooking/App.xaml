@@ -218,7 +218,7 @@
                 </Style.Triggers>
             </Style>
 
-            <Style x:Key="comboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
+            <Style x:Key="ComboBoxItemStyle" TargetType="{x:Type ComboBoxItem}">
                 <Setter Property="FocusVisualStyle" Value="{x:Null}"/>
                 <Setter Property="Background" Value="{DynamicResource ComboBox.Item.Static.Background}"/>
                 <Setter Property="Template">
@@ -407,6 +407,42 @@
                 <Setter Property="Template" Value="{StaticResource ComboBoxTemplate}"/>
             </Style>
             <DropShadowEffect x:Key="myShadow" BlurRadius="10" Opacity="0.4" ShadowDepth="0"/>
+
+            <Style x:Key="ToolTipStyle" TargetType="{x:Type ToolTip}">
+                <Setter Property="OverridesDefaultStyle" Value="true" />
+                <Setter Property="HasDropShadow" Value="True" />
+                <Setter Property="Background" Value="{DynamicResource ToolTip.Static.Background}"/>
+                <Setter Property="Focusable" Value="False"/>
+                <Setter Property="Foreground" Value="{DynamicResource ToolTip.Static.Foreground}"/>
+                <Setter Property="Template">
+                    <Setter.Value>
+                        <ControlTemplate TargetType="ToolTip">
+                            <Border Name="Border"
+                                    BorderThickness="1"
+                                    Width="{TemplateBinding Width}"
+                                    Height="{TemplateBinding Height}"
+                                    Background="{TemplateBinding Background}"
+                                    BorderBrush="{DynamicResource ToolTip.Static.BorderBrush}">
+                                <ContentPresenter Margin="4" HorizontalAlignment="Left" VerticalAlignment="Top" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="HasDropShadow"
+                                         Value="true">
+                                    <Setter TargetName="Border"
+                                            Property="CornerRadius"
+                                            Value="4"/>
+                                    <Setter TargetName="Border"
+                                            Property="SnapsToDevicePixels"
+                                            Value="true"/>
+                                </Trigger>
+                                <Trigger Property="Content" Value="{x:Null}">
+                                    <Setter Property="Visibility" Value="Collapsed"/>
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Setter.Value>
+                </Setter>
+            </Style>
         </ResourceDictionary>
     </Application.Resources>
 </Application>

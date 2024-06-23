@@ -12,6 +12,8 @@
         public string? Duration { get; set; }
         public string? AgeRestriction { get; set; }
         public string? ImageUrl { get; set; }
+        public string? Director { get; set; }
+        public string? Actors { get; set; }
         public DateTime? StartDate { get; set; }
         public DateTime? EndDate { get; set; }
     }

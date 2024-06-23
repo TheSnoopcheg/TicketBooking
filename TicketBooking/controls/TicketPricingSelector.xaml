@@ -22,17 +22,38 @@
                     <ColumnDefinition Width="150"/>
                     <ColumnDefinition/>
                 </Grid.ColumnDefinitions>
-                <TextBlock Grid.Column="0"
-                           VerticalAlignment="Center"
-                           FontSize="16">
-                    <TextBlock.Text>
-                        <MultiBinding Converter="{StaticResource DiscountConverter}">
-                            <Binding Path="Name"/>
-                            <Binding Path="PriceMultiplier"/>
-                            <Binding RelativeSource="{RelativeSource AncestorType=Grid, AncestorLevel=2}" Path="DataContext.Price"/>
-                        </MultiBinding>
-                    </TextBlock.Text>
-                </TextBlock>
+                <StackPanel Grid.Column="0"
+                            VerticalAlignment="Center"
+                            Orientation="Horizontal">
+                    <TextBlock FontSize="16">
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource DiscountConverter}">
+                                <Binding Path="Name"/>
+                                <Binding Path="PriceMultiplier"/>
+                                <Binding RelativeSource="{RelativeSource AncestorType=Grid, AncestorLevel=2}" Path="DataContext.Price"/>
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                    <TextBlock Text="🛈"
+                               FontSize="14"
+                               VerticalAlignment="Center"
+                               Margin="5,0">
+                        <TextBlock.ToolTip>
+                            <ToolTip Style="{DynamicResource ToolTipStyle}"
+                                     Content="{Binding Requirements}"/>
+                        </TextBlock.ToolTip>
+                        <TextBlock.Style>
+                            <Style TargetType="{x:Type TextBlock}">
+                                <Style.Triggers>
+                                    <DataTrigger Binding="{Binding Requirements}" Value="{x:Null}">
+                                        <Setter Property="Visibility" Value="Collapsed"/>
+                                    </DataTrigger>
+                                </Style.Triggers>
+                            </Style>
+                        </TextBlock.Style>
+                    </TextBlock>
+                </StackPanel>
+                
                 <StackPanel Orientation="Horizontal"
                             Grid.Column="1">
                     <Button Style="{DynamicResource ButtonStyle1}"

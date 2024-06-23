@@ -13,7 +13,12 @@
         <converters:DiscountNameConverter x:Key="DiscountNameConverter"/>
         <DataTemplate x:Key="DiscountTemplate">
             <TextBlock Text="{Binding ., Converter={StaticResource DiscountNameConverter}}"
-                       VerticalAlignment="Center"/>
+                       VerticalAlignment="Center">
+                <TextBlock.ToolTip>
+                    <ToolTip Style="{DynamicResource ToolTipStyle}"
+                             Content="{Binding Requirements}"/>
+                </TextBlock.ToolTip>
+            </TextBlock>
         </DataTemplate>
         <DataTemplate x:Key="TicketTemplate">
             <Border CornerRadius="5"
@@ -110,7 +115,7 @@
                         <ComboBox Grid.Column="1"
                                   ItemTemplate="{DynamicResource DiscountTemplate}"
                                   SelectedItem="{Binding SelectedDiscount}"
-                                  ItemContainerStyle="{DynamicResource comboBoxItemStyle}"
+                                  ItemContainerStyle="{DynamicResource ComboBoxItemStyle}"
                                   Style="{DynamicResource ComboBoxStyle}"
                                   Width="110"
                                   Height="25"
